@@ -70,8 +70,8 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "Halo semua, salam kenal ..."
-    Content: Klik link diatas untuk membaca blog atau ke store saya
+    Title: "Halo sob! 😄"
+    Content: Klik link di pojok kanan atas untuk membaca blog atau menuju store saya.
 
   socialIcons:
     - name: twitter
@@ -115,9 +115,9 @@ menu:
     #  name: categories
     #  url: /categories/
     #  weight: 10
-    - identifier: tags
-      name: tags
-      url: /tags/
+    - identifier: blog
+      name: blog
+      url: /blog/
       weight: 20
     - identifier: store
       name: store
