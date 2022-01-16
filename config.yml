@@ -75,7 +75,7 @@ params:
 
   socialIcons:
     - name: twitter
-      url: "https://twitter.com/"
+      url: "https://twitter.com/dagimals"
     #- name: stackoverflow
     #  url: "https://stackoverflow.com"
     - name: github
