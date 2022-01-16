@@ -70,8 +70,8 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "Hi there"
-    Content: Welcome to my blog
+    Title: "Halo semua, salam kenal ..."
+    Content: Klik link diatas untuk membaca blog atau ke store saya
 
   socialIcons:
     - name: twitter
@@ -119,8 +119,8 @@ menu:
       name: tags
       url: /tags/
       weight: 20
-    - identifier: example
-      name: example.org
+    - identifier: store
+      name: store
       url: https://example.org
       weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
