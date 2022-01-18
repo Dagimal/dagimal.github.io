@@ -49,7 +49,7 @@ Kenalin lur, nama saya **Daffa Gifari Akmal** 😁, nickname di dunia maya adala
 
 wkwkwk, ya gimana... saya memang cinta banget [ngoprek](https://pujo.staff.ut.ac.id/ngoprek/) sih 😘
 
-udah sih, gitu doang kali ya wkwk, tunggu tulisanku berikutnya ya lurr!!!
+udah sih, gitu doang kali ya wkwk, tunggu tulisan saya berikutnya ya lurr!!!
 
 ### Promosi
 kalian bisa banget kok, ngobrol dengan saya disini :
