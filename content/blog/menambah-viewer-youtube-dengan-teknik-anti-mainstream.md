@@ -1,3 +1,37 @@
+---
+title: "Menambah viewer youtube dengan teknik anti mainstream"
+date: 2022-02-26T02:04:30+07:00
+# weight: 1
+# aliases: ["/menambah-viewer-youtube-dengan-teknik-anti-mainstream"]
+tags: ["affiliate marketing","youtube viewer","traffic highjacking"]
+author: "Daffa Gifari Akmal"
+# author: ["Me", "You"] # multiple authors
+showToc: true
+TocOpen: false
+draft: false
+hidemeta: false
+comments: false
+description: "Menambah viewer youtube itu mudah."
+canonicalURL: "https://canonical.url/to/page"
+disableHLJS: true # to disable highlightjs
+disableShare: false
+disableHLJS: false
+hideSummary: false
+searchHidden: true
+ShowReadingTime: true
+ShowBreadCrumbs: true
+ShowPostNavLinks: true
+cover:
+    image: "<image path/url>" # image path/url
+    alt: "<alt text>" # alt text
+    caption: "<text>" # display caption under cover
+    relative: false # when using page bundles set this to true
+    hidden: true # only hide on current single page
+#editPost:
+#    URL: "https://github.com/<path_to_repo>/content"
+#    Text: "Suggest Changes" # edit text
+#    appendFilePath: true # to append file path to Edit link
+---
 # Menambah viewer youtube dengan teknik anti mainstream
 Saya tau, anda yang lagi baca artikel ini pasti kalian juga pengen kan punya viewer youtube yang banyak, tapi bingung gimana caranya wkwk, selamat ya, berarti anda ada pada artikel yang tepat !!! Oke biar saya tunjukkan sesuatu 
 
