@@ -1,3 +1,2 @@
-User-agent: *
-Disallow:
+User-Agent: *
 Sitemap: https://dagimal.github.io/sitemap.xml

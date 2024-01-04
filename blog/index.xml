@@ -1,32 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Blogs on Dagimal</title>
-    <link>https://dagimal.github.io/blog/</link>
-    <description>Recent content in Blogs on Dagimal</description>
-    <image>
-      <url>https://dagimal.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://dagimal.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 26 Feb 2022 02:04:30 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Menambah viewer youtube dengan teknik anti mainstream</title>
-      <link>https://dagimal.github.io/blog/menambah-viewer-youtube-dengan-teknik-anti-mainstream/</link>
-      <pubDate>Sat, 26 Feb 2022 02:04:30 +0700</pubDate>
-      
-      <guid>https://dagimal.github.io/blog/menambah-viewer-youtube-dengan-teknik-anti-mainstream/</guid>
-      <description>Menambah viewer youtube itu mudah.</description>
-    </item>
-    
-    <item>
-      <title>Kenalan yuk ...</title>
-      <link>https://dagimal.github.io/blog/kenalan-yuk/</link>
-      <pubDate>Tue, 18 Jan 2022 23:16:53 +0700</pubDate>
-      
-      <guid>https://dagimal.github.io/blog/kenalan-yuk/</guid>
-      <description>Karena tak kenal maka tak tak gentak jos.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Dagimal (ノ•̀ ⏥ ́•)ノ Blog</title><link>https://dagimal.github.io/blog/</link><description>Recent content in Blog on Dagimal (ノ•̀ ⏥ ́•)ノ Blog</description><generator>Hugo -- gohugo.io</generator><language>en-US</language><copyright>Copyright © 2023, Dagimal.</copyright><lastBuildDate>Fri, 03 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://dagimal.github.io/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Markdown Syntax Guide</title><link>https://dagimal.github.io/markdown-syntax-guide/</link><pubDate>Fri, 03 Jan 2020 00:00:00 +0000</pubDate><guid>https://dagimal.github.io/markdown-syntax-guide/</guid><description>&lt;p>For a quick cheatsheet, check out &lt;a href="https://simplemde.com/markdown-guide">https://simplemde.com/markdown-guide&lt;/a>.&lt;/p>
+&lt;hr>
+&lt;p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p></description></item></channel></rss>
