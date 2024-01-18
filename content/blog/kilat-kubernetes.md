@@ -1,7 +1,6 @@
 ---
 title: "Kilat Kubernetes"
 date: "2024-01-18T20:21:07+07:00"
-menu: "main"
 #
 # description is optional
 #
