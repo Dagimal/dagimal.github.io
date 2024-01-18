@@ -12,7 +12,7 @@ tags: ["kubernetes","DevOps","Container","Cloud Computing"]
 # Kilat Kubernetes Fundamental ⚡️
 ### Panduan untuk memahami konsep kubernetes secepat kilat
 
-![picture 1](../../images/1926a08ed0dd67bc3e17ac940ffffa37b31a35d4037bbb95146a73f395d51f7f.png)
+![kuber1](../blog/images/1926a08ed0dd67bc3e17ac940ffffa37b31a35d4037bbb95146a73f395d51f7f.png)
 
 >**Seperti judul diatas, yap.. Ini adalah panduan fundamental kubernetes untuk pemula, dibuat khusus untuk orang yang pengen cepet paham kuber tapi males baca dokumen resmi, 3 jam dijamin paham! [kalo beneran praktek 😜]**
 
@@ -28,6 +28,8 @@ Disini kita bakal belajar 3 hal utama :
 - Pengantar Kubernetes, menerapkan aplikasi berbasis Container ke dalam Cluster yang dikelola Kubernetes.
 
 Tanpa banyak basa-basi skuy langsung praktek...
+
+
 
 
 
