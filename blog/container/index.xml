@@ -1,24 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Container on Dagimal (ノ•̀ ⏥ ́•)ノ Blog</title>
-    <link>https://dagimal.github.io/blog/container/</link>
-    <description>Recent content in Container on Dagimal (ノ•̀ ⏥ ́•)ノ Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language>
-    <copyright>Copyright © 2024, Dagimal.</copyright>
-    <lastBuildDate>Thu, 18 Jan 2024 20:21:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/blog/container/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Kilat Kubernetes</title>
-      <link>https://dagimal.github.io/kilat-kubernetes/</link>
-      <pubDate>Thu, 18 Jan 2024 20:21:07 +0700</pubDate>
-      
-      <guid>https://dagimal.github.io/kilat-kubernetes/</guid>
-      <description>Kilat Kubernetes Fundamental ⚡️ Panduan untuk memahami konsep kubernetes secepat kilat  Seperti judul diatas, yap.. Ini adalah panduan fundamental kubernetes untuk pemula, dibuat khusus untuk orang yang pengen cepet paham kuber tapi males baca dokumen resmi, 3 jam dijamin paham! [kalo beneran praktek 😜]
- tulisan ini hasil rewrite dari artikel keren bikinan om Rinor Maloku
-learn kubernetes in under 3 hours a detailed guide to orchestrating containers
-Makasih banyak om 😇</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Container on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</title><link>https://dagimal.github.io/blog/container/</link><description>Recent content in Container on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</description><generator>Hugo</generator><language>en-US</language><copyright>Copyright © 2024, Dagimal.</copyright><lastBuildDate>Sun, 24 Nov 2024 17:38:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/blog/container/index.xml" rel="self" type="application/rss+xml"/><item><title>Capek Ngepush? Testing Gitlab CI/CD dengan gitlab-ci-local</title><link>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</link><pubDate>Sun, 24 Nov 2024 17:38:07 +0700</pubDate><guid>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</guid><description>&lt;p>&lt;img src="../images/gitlab-ci-local/2024-11-24-18-52-48-image.png" alt="">&lt;/p>
+&lt;p>Pasti kalian kesel banget dong liat gambar diatas, gimana nggak kesel, udah capek2 bikin pipeline, ehh ketika di push malah error, belom lagi nunggunya lama cuma buat tau pipeline yang kita bikin sukses apa nggak.. Pengen nangis aja rasanya, apalagi errornya ga cuma sekali (baca: &lt;em>&lt;strong>skill issue&lt;/strong>&lt;/em>) 😭&lt;/p>
+&lt;p>Untungnya, ada om Nielsen yang bikin tools menarik banget nih, yaitu&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>&lt;a href="https://github.com/firecow/gitlab-ci-local">GitHub - firecow/gitlab-ci-local&lt;/a>&lt;/strong>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="imagesgitlab-ci-local2024-11-24-21-18-01-imagepng">&lt;img src="../images/gitlab-ci-local/2024-11-24-21-18-01-image.png" alt="">&lt;/h3>
+&lt;h3 id="sebenernya-benda-apa-sih-itu">Sebenernya benda apa sih itu?&lt;/h3>
+&lt;p>Simpelnya gini, &lt;em>agent&lt;/em> yang ada pada &lt;em>&lt;strong>&lt;a href="https://docs.gitlab.com/runner/">gitlab runner&lt;/a>&lt;/strong>&lt;/em> di &lt;em>cloning&lt;/em> dan bisa kita jalanin di mesin lokal kita 😱&lt;/p></description></item></channel></rss>
