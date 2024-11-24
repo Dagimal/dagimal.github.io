@@ -6,7 +6,8 @@ baseURL = "https://dagimal.github.io"
 theme = 'hugo-bearblog'
 
 # Basic metadata configuration for your blog.
-title = "Dagimal (ノ•̀ ⏥ ́•)ノ Blog"
+#title = "Dagimal (ノ•̀ ⏥ ́•)ノ Blog"
+title = "Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog"
 author = "Dagimal"
 copyright = "Copyright © 2024, Dagimal."
 languageCode = "en-US"

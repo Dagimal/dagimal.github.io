@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>DevOps on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</title>
-    <link>https://dagimal.github.io/blog/devops/</link>
-    <description>Recent content in DevOps on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</description>
+    <title>GitLab on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</title>
+    <link>https://dagimal.github.io/blog/gitlab/</link>
+    <description>Recent content in GitLab on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Dagimal.</copyright>
-    <lastBuildDate>Sun, 24 Nov 2024 17:38:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/blog/devops/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Nov 2024 17:38:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/blog/gitlab/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Capek Ngepush? Testing Gitlab CI/CD dengan gitlab-ci-local</title>
       <link>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</link>

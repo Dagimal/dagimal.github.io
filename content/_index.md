@@ -2,8 +2,7 @@
 
 ---
 
-Haloo namaku **Daffa**.
-
+Haloo, aku **Dagimal**.
 
 Kalian bisa baca tulisanku seputar ***Tech***, ***System Engineering*** dan ***Open Source***. Bookmarks untuk mengikuti updatenya.
 

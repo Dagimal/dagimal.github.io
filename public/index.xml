@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dagimal (ノ•̀ ⏥ ́•)ノ Blog</title>
+    <title>Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</title>
     <link>https://dagimal.github.io/</link>
-    <description>Recent content on Dagimal (ノ•̀ ⏥ ́•)ノ Blog</description>
+    <description>Recent content on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Dagimal.</copyright>
-    <lastBuildDate>Thu, 18 Jan 2024 20:21:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Nov 2024 17:38:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Kilat Kubernetes</title>
-      <link>https://dagimal.github.io/kilat-kubernetes/</link>
-      <pubDate>Thu, 18 Jan 2024 20:21:07 +0700</pubDate>
+      <title>Capek Ngepush? Testing Gitlab CI/CD dengan gitlab-ci-local</title>
+      <link>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</link>
+      <pubDate>Sun, 24 Nov 2024 17:38:07 +0700</pubDate>
       
-      <guid>https://dagimal.github.io/kilat-kubernetes/</guid>
-      <description>Kilat Kubernetes Fundamental ⚡️ Panduan untuk memahami konsep kubernetes secepat kilat  Seperti judul diatas, yap.. Ini adalah panduan fundamental kubernetes untuk pemula, dibuat khusus untuk orang yang pengen cepet paham kuber tapi males baca dokumen resmi, 3 jam dijamin paham! [kalo beneran praktek 😜]
- tulisan ini hasil rewrite dari artikel keren bikinan om Rinor Maloku
-learn kubernetes in under 3 hours a detailed guide to orchestrating containers
-Makasih banyak om 😇</description>
+      <guid>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</guid>
+      <description>Pasti kalian kesel banget dong liat gambar diatas, gimana nggak kesel, udah capek2 bikin pipeline, ehh ketika di push malah error, belom lagi nunggunya lama cuma buat tau pipeline yang kita bikin sukses apa nggak.. Pengen nangis aja rasanya, apalagi errornya ga cuma sekali (baca: skill issue) 😭
+Untungnya, ada om Nielsen yang bikin tools menarik banget nih, yaitu
+ GitHub - firecow/gitlab-ci-local
+  Sebenernya benda apa sih itu? Simpelnya gini, agent yang ada pada gitlab runner di cloning dan bisa kita jalanin di mesin lokal kita 😱</description>
     </item>
     
   </channel>
