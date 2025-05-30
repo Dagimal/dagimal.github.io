@@ -2,7 +2,7 @@
 
 ---
 
-Haloo, namaku **Dagimal**. Seorang SysAdmin Medioker.
+Haloo, namaku **Dagimal**. Seorang Medioker DevOps Engineer.
 
 Kalian bisa baca tulisanku seputar ***Tech***, ***Infrastructure***, ***System Engineering*** dan ***Open Source***. Bookmarks untuk mengikuti updatenya.
 
