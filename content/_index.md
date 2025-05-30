@@ -1,4 +1,4 @@
-# Catatan SysAdmin Amatiran
+# Catatan DevOps Amatiran
 
 ---
 
