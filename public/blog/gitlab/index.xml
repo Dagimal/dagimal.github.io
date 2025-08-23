@@ -2,23 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>GitLab on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</title>
-    <link>https://dagimal.github.io/blog/gitlab/</link>
+    <link>http://localhost:1313/blog/gitlab/</link>
     <description>Recent content in GitLab on Dagimal (⌐ ͡■ ͜ʖ ͡■) Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, Dagimal.</copyright>
-    <lastBuildDate>Sun, 24 Nov 2024 17:38:07 +0700</lastBuildDate><atom:link href="https://dagimal.github.io/blog/gitlab/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Nov 2024 17:38:07 +0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/blog/gitlab/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Capek Ngepush? Testing Gitlab CI/CD dengan gitlab-ci-local</title>
-      <link>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</link>
+      <link>http://localhost:1313/testing-ci-cd-dengan-gitlab-ci-local/</link>
       <pubDate>Sun, 24 Nov 2024 17:38:07 +0700</pubDate>
-      
-      <guid>https://dagimal.github.io/testing-ci-cd-dengan-gitlab-ci-local/</guid>
-      <description>Pasti kalian kesel banget dong liat gambar diatas, gimana nggak kesel, udah capek2 bikin pipeline, ehh ketika di push malah error, belom lagi nunggunya lama cuma buat tau pipeline yang kita bikin sukses apa nggak.. Pengen nangis aja rasanya, apalagi errornya ga cuma sekali (baca: skill issue) 😭
-Untungnya, ada om Nielsen yang bikin tools menarik banget nih, yaitu
- GitHub - firecow/gitlab-ci-local
-  Sebenernya benda apa sih itu? Simpelnya gini, agent yang ada pada gitlab runner di cloning dan bisa kita jalanin di mesin lokal kita 😱</description>
+      <guid>http://localhost:1313/testing-ci-cd-dengan-gitlab-ci-local/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;../images/gitlab-ci-local/2024-11-24-18-52-48-image.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Pasti kalian kesel banget dong liat gambar diatas, gimana nggak kesel, udah capek2 bikin pipeline, ehh ketika di push malah error, belom lagi nunggunya lama cuma buat tau pipeline yang kita bikin sukses apa nggak.. Pengen nangis aja rasanya, apalagi errornya ga cuma sekali (baca: &lt;em&gt;&lt;strong&gt;skill issue&lt;/strong&gt;&lt;/em&gt;) 😭&lt;/p&gt;&#xA;&lt;p&gt;Untungnya, ada om Nielsen yang bikin tools menarik banget nih, yaitu&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://github.com/firecow/gitlab-ci-local&#34;&gt;GitHub - firecow/gitlab-ci-local&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;h3&gt;&lt;img src=&#34;../images/gitlab-ci-local/2024-11-24-21-18-01-image.png&#34; alt=&#34;&#34;&gt;&lt;/h3&gt;&#xA;&lt;h3 id=&#34;sebenernya-benda-apa-sih-itu&#34;&gt;Sebenernya benda apa sih itu?&lt;/h3&gt;&#xA;&lt;p&gt;Simpelnya gini, &lt;em&gt;agent&lt;/em&gt; yang ada pada &lt;em&gt;&lt;strong&gt;&lt;a href=&#34;https://docs.gitlab.com/runner/&#34;&gt;gitlab runner&lt;/a&gt;&lt;/strong&gt;&lt;/em&gt; di &lt;em&gt;cloning&lt;/em&gt; dan bisa kita jalanin di mesin lokal kita 😱&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

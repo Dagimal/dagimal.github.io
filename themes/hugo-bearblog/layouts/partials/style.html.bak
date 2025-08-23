@@ -1,16 +1,15 @@
 <style>
   body {
-    font-family: sans-serif;
-    font-size: 20px;
+    font-family: Verdana, sans-serif;
     margin: auto;
     padding: 20px;
-    max-width: 1000px;
+    max-width: 720px;
     text-align: left;
     background-color: #fff;
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.5;
-    color: #000000;
+    color: #444;
   }
 
   h1,
@@ -21,11 +20,11 @@
   h6,
   strong,
   b {
-    color: #000000;
+    color: #222;
   }
 
   a {
-    color: #0101ee;
+    color: #3273dc;
     /*color: #ff5e6c;*/
   }
 
@@ -44,11 +43,11 @@
 
   textarea {
     width: 100%;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   input {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   content {
@@ -69,11 +68,11 @@
   }
 
   pre code {
-    color: #000000;
+    color: #222;
     display: block;
     padding: 20px;
     white-space: pre-wrap;
-    font-size: 18px;
+    font-size: 14px;
     overflow-x: auto;
   }
 
