@@ -2,12 +2,12 @@
 
 ---
 
-Haloo, namaku **Dagimal**. Seorang Medioker DevOps Engineer.
+Hanya tukang restart service.
 
-Kalian bisa baca tulisanku seputar ***Tech***, ***Infrastructure***, ***System Engineering*** dan ***Open Source***. Bookmarks untuk mengikuti updatenya.
+Membahas seputar ***Tech***, ***Infrastructure***, ***System Engineering*** dan ***~~Curhat~~*** ***Open Source***. Bookmarks untuk mengikuti updatenya.
 
 ---
 
 - https://www.linkedin.com/in/dagimal/
-- https://twitter.com/dagimals
+- https://x.com/dagimals
 - https://t.me/dagimal

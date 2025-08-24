@@ -26,13 +26,14 @@
   </ul>
   {{ if .Data.Singular }}
   {{else}}
+<!--
     <small>
       <div>
         {{ range .Site.Taxonomies.tags }}
         <a href="{{ .Page.Permalink }}">#{{ .Page.Title }}</a>&nbsp;
         {{ end }}
       </div>
-    </small>
+    </small> -->
     {{ end }}
 </content>
 {{ end }}
