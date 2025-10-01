@@ -2,7 +2,7 @@
 
 ---
 
-Hanya tukang restart service.
+Cuma tukang restart service biasa.
 
 Membahas seputar ***Tech***, ***Infrastructure***, ***System Engineering*** dan ***~~Curhat~~*** ***Open Source***. Bookmarks untuk mengikuti updatenya.
 

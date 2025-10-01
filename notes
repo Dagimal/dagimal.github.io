@@ -1,0 +1,2 @@
+# Create New Page
+hugo new content content/blog/title.md
