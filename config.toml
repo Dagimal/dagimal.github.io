@@ -56,3 +56,7 @@ ignoreErrors = ["error-disable-taxonomy"]
   [[module.mounts]]
     source = "images"
     target = "static"
+
+[markup.goldmark.renderer]
+unsafe = true
+
