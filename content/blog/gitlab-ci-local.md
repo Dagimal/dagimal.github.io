@@ -24,7 +24,7 @@ Untungnya, ada om Nielsen yang bikin tools menarik banget nih, yaitu
 
 ### Sebenernya benda apa sih itu?
 
-Simpelnya gini, *agent* yang ada pada ***[gitlab runner](https://docs.gitlab.com/runner/)*** di *cloning* dan bisa kita jalanin di mesin lokal kita 😱
+Simpelnya gini, *agent* yang ada pada ***[gitlab runner](https://docs.gitlab.com/runner/)*** di *cloning* dan bisa kita jalanin di mesin lokal kita, dan tentu bisa dijalankan juga di server runner, tinggal sesuaikan saja semau kita 😱
 
 ### Emangnya kenapa tuh kalo bisa jalan di mesin lokal kita ?
 
@@ -95,6 +95,11 @@ outputnya akan menjadi seperti ini
 
 <img width="1160" style="text-align: center;" alt="image" src="https://github.com/user-attachments/assets/fed098e0-22e3-412b-84ae-4873a9e3b133" />
 
+jika terdapat error terkait json, bisa jadi karena struktur file gitlab-ci kita yang bermasalah, tambahkan flag berikut
+
+```
+gitlab-ci-local --list --json-schema-validation=false
+``` 
 
 bisa dilihat, semua stage yang ada pada ci file nya akan terbaca. Kita juga bisa menambahkan option `--list-all` untuk menampilkan stage / job yang di set ke never
 
