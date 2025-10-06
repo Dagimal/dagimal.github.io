@@ -1,5 +1,5 @@
 ---
-title: "Distroless Images: Obat Obesitas Untuk Container"
+title: "Distroless Images: Obat Diet Container"
 date: "2025-10-06T14:33:06+07:00"
 #menu: "main"
 #
