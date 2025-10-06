@@ -4,7 +4,7 @@
 
 Cuma tukang restart service biasa.
 
-Membahas seputar ***Tech***, ***Infrastructure***, ***System Engineering*** dan ***~~Curhat~~*** ***Open Source***. Bookmarks untuk mengikuti updatenya.
+Membahas seputar ***DevOps, SRE, Tech Infrastructure, System Engineering*** dan ***~~Curhat~~*** ***Open Source***. Bookmarks untuk mengikuti updatenya.
 
 ---
 
