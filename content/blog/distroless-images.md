@@ -1,5 +1,5 @@
 ---
-title: "Distroless Images: Obat Obesitas pada Container"
+title: "Distroless Images: Obat Obesitas Untuk Container"
 date: "2025-10-06T14:33:06+07:00"
 #menu: "main"
 #
@@ -10,7 +10,7 @@ date: "2025-10-06T14:33:06+07:00"
 tags: ["container","devops","gitlab",]
 ---
 
-<img width="1262" height="460" alt="image" src="https://gist.github.com/user-attachments/assets/58cb2a4c-4c20-4a6a-9a3b-0eec535ea150" />
+<img width="750" alt="bloated image" src="https://i.imgur.com/eXdWpED.png" />
 
 
 Ketika kita sedang melakukan build image, salah satu hal yang bikin kita kesal adalah _image size_ yang besar, tentu ini sangat mengganggu karena bisa membuat proses _delivery_ menjadi lebih lama dan juga membuat _registry server_ menjadi cepat penuh.
@@ -71,7 +71,7 @@ kita juga bisa membuatnya sendiri dengan menggunakan _base image_ tanpa _runtime
 
 Berikut perbandingan ukuran _image_ jika menggunakan distroless dan tidak
 
-<img width="851" height="117" alt="image_2025-10-06_17-01-47" src="https://gist.github.com/user-attachments/assets/924d3e17-375c-490b-aa41-b69df514358f" />
+<img width="851" alt="podman images" src="https://i.imgur.com/KTdBgkI.png" />
 
 terlihat, ukurannya sangat berbeda jauh, bahkan untuk _base image_ tanpa _runtime_ hanya ~3MiB saja, sedangkan untuk _base image_ dengan _runtime_ java menggunakan versi yang sama yaitu 21, ukurannya sangat jauh.
 
