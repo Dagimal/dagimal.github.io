@@ -1,6 +1,7 @@
 ---
 title: "Distroless Images: Obat Diet Container"
 date: "2025-10-06T14:33:06+07:00"
+image: "https://i.imgur.com/eXdWpED.png"
 #menu: "main"
 #
 # description is optional
