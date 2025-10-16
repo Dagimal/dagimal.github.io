@@ -16,7 +16,9 @@ tags: ["container","devops","gitlab",]
 
 Ketika kita sedang melakukan build image, salah satu hal yang bikin kita kesal adalah _image size_ yang besar, tentu ini sangat mengganggu karena bisa membuat proses _delivery_ menjadi lebih lama dan juga membuat _registry server_ menjadi cepat penuh.
 
-Dalam praktik ***production grade cluster***, hal tersebut juga kurang bagus karena _worker server_ harus menjalankan _image_ dengan ukuran besar, tentu ini sangat tidak efisien, membuang banyak _storage resource_ dan cenderung _bloated_.
+Dalam praktik ***production grade cluster***, hal tersebut juga kurang baik karena _worker server_ harus menjalankan _image_ dengan ukuran besar, tentu ini sangat tidak efisien, membuang banyak _storage resource_, _Network_, dan _Disk I/O_, serta cenderung _bloated_.
+
+Bahkan bisa berdampak pada  _startup time_, karena container butuh waktu lebih lama untuk start, karena _pull time_ yang lebih lama, misal pada saat _scaling_, _worker_ harus melakukan _image pull_ dari _registry_.
 
 ### Terus solusinya gimana?
 
