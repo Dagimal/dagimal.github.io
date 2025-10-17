@@ -6,7 +6,7 @@ date: "2025-10-17T01:23:20+07:00"
 # description is optional
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
-
+image: "img/mosh_header.jpg"
 tags: ["container","devops","gitlab",]
 ---
 
