@@ -1,5 +1,5 @@
 ---
-title: "Mosh: Solusi Remote Server Menggunakan Koneksi Buruk"
+title: "Mosh: Stabil, Responsif, Anti ngelag"
 date: "2025-10-17T01:23:20+07:00"
 #menu: "main"
 #
