@@ -1,7 +1,7 @@
 ---
 title: "Distroless Images: Obat Diet Container"
 date: "2025-10-06T14:33:06+07:00"
-image: "fatcontainer.png"
+image: "img/fatcontainer.png"
 #menu: "main"
 #
 # description is optional
@@ -11,14 +11,14 @@ image: "fatcontainer.png"
 tags: ["container","devops","gitlab",]
 ---
 
-<img width="750" alt="bloated image" src="https://i.imgur.com/eXdWpED.png" />
+<img width="750" alt="bloated image" src="/img/fatcontainer.png" />
 
 
 Ketika kita sedang melakukan build image, salah satu hal yang bikin kita kesal adalah _image size_ yang besar, tentu ini sangat mengganggu karena bisa membuat proses _delivery_ menjadi lebih lama dan juga membuat _registry server_ menjadi cepat penuh.
 
 Dalam praktik ***production grade cluster***, hal tersebut juga kurang baik karena _worker server_ harus menjalankan _image_ dengan ukuran besar, tentu ini sangat tidak efisien, membuang banyak _storage resource_, _Network_, dan _Disk I/O_, serta cenderung _bloated_.
 
-Bahkan bisa berdampak pada  _startup time_, karena container butuh waktu lebih lama untuk start, karena _pull time_ yang lebih lama, misal pada saat _scaling_, _worker_ harus melakukan _image pull_ dari _registry_.
+Bahkan bisa berdampak pada  _startup time_, karena container butuh waktu lebih lama untuk start, dan penyebabnya adalah _pull time_ yang lebih lama, misal pada saat _scaling_, worker membutuhkan waktu yang lebih lama untuk melakukan _image pull_ dari _registry_.
 
 ### Terus solusinya gimana?
 
@@ -74,7 +74,7 @@ kita juga bisa membuatnya sendiri dengan menggunakan _base image_ tanpa _runtime
 
 Berikut perbandingan ukuran _image_ jika menggunakan distroless dan tidak
 
-<img width="851" alt="podman images" src="https://i.imgur.com/KTdBgkI.png" />
+<img width="851" alt="podman images" src="/img/podman_images.png" />
 
 terlihat, ukurannya sangat berbeda jauh, bahkan untuk _base image_ tanpa _runtime_ hanya ~3MiB saja, sedangkan untuk _base image_ dengan _runtime_ java menggunakan versi yang sama yaitu 21, ukurannya sangat jauh.
 
