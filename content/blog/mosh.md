@@ -14,7 +14,7 @@ tags: ["container","devops","gitlab",]
 
 Ketika melakukan _remote access_ ke server melalui SSH _(Secure Shell)_ dengan lokasi server yang dekat, satu kota atau bahkan negara tetangga, kita tidak ada masalah dengan _network latency_ yang kita dapat, semuanya lancar tanpa hambatan dan tanpa delay yang berarti, namun lain cerita jika kita terhubung ke server menggunakan **jaringan yang buruk**, atau lokasi server berada **sangat jauh**, lintas benua, kita akan dibuat kesal dengan latency yang kita dapat, perintah yang kita ketik menjadi terasa sangat delay, bahkan koneksi sering terputus tiba-tiba, hal ini tentu sangat tidak nyaman, dan membuat kita menjadi emosi 🤬
 
-Ternyata ada utilitas bernama Mosh _(Mobile Shell)_ yang dirancang sebagai pengganti atau pelengkap dari SSH yang dirancang untuk koneksi **tidak stabil**.
+Ternyata ada utilitas bernama Mosh _(Mobile Shell)_ yang dirancang sebagai pengganti atau pelengkap dari SSH dan di diperuntukkan untuk koneksi **tidak stabil**.
 > [Mosh - Mobile Shell](https://mosh.org/)
 
 ### Cara Kerja
