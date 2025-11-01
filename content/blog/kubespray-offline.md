@@ -7,7 +7,7 @@ date: "2025-10-31T00:11:28+07:00"
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 #draft: true
-slug: kubespray-offline
+slug: "kubespray-offline"
 tags: ["container","devops","gitlab","k8s"]
 ---
 
