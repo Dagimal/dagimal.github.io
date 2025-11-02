@@ -173,7 +173,7 @@ Setelah semua artefak ter-download, langkah selanjutnya adalah membuat mirror se
 	- menjalankan private registry container
 
 3. Push image ke private registry
-	```
+	```bash
 	./load-push-all-images.sh
 	```
 	script ini akan melakukan push semua image yang telah kita download ke private registry yang sudah kita buat.
