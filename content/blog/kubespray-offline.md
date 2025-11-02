@@ -24,9 +24,9 @@ Kemarin sempat dibuat frustasi ketika setup cluster k8s baru di server kantor, b
 Sebelum kita mulai instalasi, pastikan hal - hal berikut:
 * Punya mesin yang ***internet accessible***, maksudnya adalah mesin yang ada akses internet buat download semua utilitas yang diperlukan untuk setup k8s. Terserah mau pakai server jumphost atau pakai host laptop kita sendiri juga bisa.
 * Mesin target ***(cluster on-prem)*** yang tidak punya akses ke internet (jelas dong, kalo ga ada mau install dimana)
-* Sistem operasi mesin target, sementara sampai panduan ini ditulis, kubespray-offline baru support untuk Keluarga OS GNU/Linux berikut :
-	- RHEL dan turunannya.
-	- Debian dan turunannya.
+* Sistem operasi untuk menjalankan kubespray-offline, sementara sampai panduan ini ditulis, kubespray-offline baru support untuk Keluarga OS GNU/Linux berikut :
+	- RHEL / AlmaLinux / Rocky Linux : 9.
+	- Ubuntu 22.04 / 24.04.
 * Pastikan juga mesin untuk menjalankan kubespray bisa terhubung ke target node.
 * Mesin untuk mirror repo / registry **(opsional, bisa menggunakan mesin yang sama)**
 
@@ -42,7 +42,7 @@ Sebelum kita mulai instalasi, pastikan hal - hal berikut:
 	```bash
 	./install-docker.sh
 	```
-	alasan menggunakan docker karena praktis, sudah satu paket dengan containerd, jika kalian ga mau pakai docker bisa pilih menggunakan nerdctl, tapi harus download containerd nya secara terpisah, scriptnya sudah tersedia juga.
+	alasan menggunakan docker karena praktis, sudah satu paket dengan containerd, jika kalian ga mau pakai docker bisa pilih menggunakan podman atau nerdctl, tapi kalau nerdctl harus download containerd nya secara terpisah, scriptnya sudah tersedia juga.
 
 2. Edit file `config.sh`
 	```bash
@@ -105,15 +105,21 @@ Sebelum kita mulai instalasi, pastikan hal - hal berikut:
 	-rw-r--r--  1 root root  322 Oct 28 03:08 venv.sh
 	```
 
-### Install Kubespray
+### Install Kubespray dan Virtual Environment
+Fungsi dari Virtual Environment (venv), adalah untuk mengisolasi environment python, agar apa yang kita lakukan di lingkungan python tidak terpengaruh di lingkungan host kita, untuk meminimalisir kemungkinan paket konflik.
+
 - Jalankan script di dalam direktori `outputs` <br>
 	```bash
 	./extract-kubespray.sh
 	```
-- Aktifkan virtual environment :
+- Buat dan aktifkan virtual environment :
+	Sesuaikan versi python yang terinstall pada sistem dengan mengubah variabel `PY=` pada file `target-scripts/pyver.sh`
+
 	```bash
-	source kubespray-<version>/venv/bin/activate
+	python3 -m venv ~/.venv/<python-version>
+	source ~/.venv/<python-version>/bin/activate
 	```
+
 	Jika virtual environment sudah aktif, akan muncul tanda (venv) pada shell seperti berikut :
 	```bash
 	(venv) root@crm-gitlab-runner-stg:~/kubespray-offline/outputs#
@@ -165,6 +171,12 @@ Setelah semua artefak ter-download, langkah selanjutnya adalah membuat mirror se
 	script tersebut akan menjalankan :
 	- menjalankan nginx container untuk membuat repo lokal (DEB/RPM)
 	- menjalankan private registry container
+
+3. Push image ke private registry
+	```
+	./load-push-all-images.sh
+	```
+	script ini akan melakukan push semua image yang telah kita download ke private registry yang sudah kita buat.
 
 ### Offline Ansible Config
 1. Copy file `offline.yml` dari direktori `kubespray-offline` ke direktori inventory 
