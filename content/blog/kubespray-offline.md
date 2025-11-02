@@ -206,4 +206,4 @@ Setelah mirror server ready, langkah selanjutnya adalah config semua server targ
 	``` 
 
 Alhamdulillah, cluster sudah ready dan siap untuk menjalankan workload aplikasi.
-> <img alt="kubespray-failed" src="/img/ready-cluster.png" />
+<img alt="kubespray-failed" src="/img/ready-cluster.png" />
