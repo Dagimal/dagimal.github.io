@@ -132,7 +132,7 @@ Arsitektur harus menyediakan:
 - Circuit breaker  
 - Retry policy  
 - Load balancing  
-- Self-healing mekanisme  
+- Self-healing mechanism
 
 ---
 
