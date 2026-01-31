@@ -181,28 +181,28 @@ Setelah semua artefak ter-download, langkah selanjutnya adalah membuat mirror se
 ### Offline Ansible Config
 1. Copy file `offline.yml` dari direktori `kubespray-offline` ke direktori inventory 
 	```bash
-	cp offline.yml kubespray-<version>/inventory/mycluster/group_vars/all/
+	cp offline.yml kubespray-<version>/inventory/<CLUSTER>/group_vars/all/
 	```
 
-2. Ganti `YOUR_HOST` menjadi host server mirror kita.
+2. Ganti `YOUR_HOST` di dalam file `offline.yml` menjadi host server mirror kita.
 
 ### Deploy Offline Repo
 Setelah mirror server ready, langkah selanjutnya adalah config semua server target untuk menggunakan mirror server yang sudah kita buat.
 
-1. Copy script ke direktori kubespray
+1. Masih di dalam direktori kubespray-offline, copy script ke direktori kubespray
 	```bash
 	cp -r outputs/playbook kubespray-<version>
 	```
 
 2. Deploy repo
 	```bash
-	ansible-playbook -i inventory/mycluster/hosts.yaml playbook/offline-repo.yml
+	ansible-playbook -i inventory/<CLUSTER>/hosts.yaml playbook/offline-repo.yml
 	```
 
 ### Spray!
 - Ini langkah terakhir, jalankan seperti biasa kita deploy cluster k8s
 	```bash
-	ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+	ansible-playbook -i inventory/<CLUSTER>/hosts.yaml  --become --become-user=root cluster.yml
 	``` 
 
 Alhamdulillah, cluster sudah ready dan siap untuk menjalankan workload aplikasi.
