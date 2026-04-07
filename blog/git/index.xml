@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on Dagimal (⌐ ͡■ ͜ʖ ͡■)</title><link>https://dagimal.com/blog/git/</link><description>Recent content in Git on Dagimal (⌐ ͡■ ͜ʖ ͡■)</description><generator>Hugo</generator><language>en-US</language><copyright>Copyright © 2024, Dagimal.</copyright><lastBuildDate>Tue, 07 Apr 2026 18:00:00 +0700</lastBuildDate><atom:link href="https://dagimal.com/blog/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Conventional Commits: Biar Git Log Kamu Gak Memalukan</title><link>https://dagimal.com/blog/conventional-commits/</link><pubDate>Tue, 07 Apr 2026 18:00:00 +0700</pubDate><guid>https://dagimal.com/blog/conventional-commits/</guid><description>&lt;p&gt;Jujur saja, siapa yang pernah nulis &lt;em&gt;commit message&lt;/em&gt; seperti ini:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;fix
+wip
+asdfgh
+coba lagi
+fix beneran
+ok done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Kita semua pernah. Dan kita semua pernah ngerasain akibatnya: buka &lt;code&gt;git log&lt;/code&gt; seminggu kemudian, bingung sendiri, gak ada yang bisa ditelusuri, dan susah tau perubahan apa yang terjadi di titik mana.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Conventional Commits&lt;/em&gt; adalah konvensi penulisan &lt;em&gt;commit message&lt;/em&gt; yang sederhana tapi &lt;strong&gt;membuat &lt;em&gt;git log&lt;/em&gt; jadi dokumentasi yang bisa dibaca dan dipahami&lt;/strong&gt;. Bukan cuma oleh orang lain, tapi juga oleh diri sendiri tiga bulan ke depan.&lt;/p&gt;</description></item></channel></rss>
