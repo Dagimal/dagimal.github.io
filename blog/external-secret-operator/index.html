@@ -1,0 +1,308 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://dagimal.com/laptop.png><title>External Secrets Operator: Inject Secret dari Vault ke Kubernetes | Dagimal (⌐ ͡■ ͜ʖ ͡■)</title><meta name=title content="External Secrets Operator: Inject Secret dari Vault ke Kubernetes"><meta name=description content="Kalau kita manage secret di Kubernetes, cara paling umum adalah simpan langsung sebagai Kubernetes Secret. Tapi ada masalahnya: nilai di dalam Kubernetes Secret hanya di-encode dengan base64, bukan dienkripsi. Siapapun yang punya akses ke cluster bisa baca isinya. Belum lagi soal rotasi secret yang manual dan menyiksa.
+HashiCorp Vault hadir sebagai solusi penyimpanan secret yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di Kubernetes baca secret dari Vault tanpa ribet?"><meta name=keywords content="kubernetes,vault,security,devops,k8s,"><meta property="og:url" content="https://dagimal.com/blog/external-secret-operator/"><meta property="og:site_name" content="Dagimal (⌐ ͡■ ͜ʖ ͡■)"><meta property="og:title" content="External Secrets Operator: Inject Secret dari Vault ke Kubernetes"><meta property="og:description" content="Kalau kita manage secret di Kubernetes, cara paling umum adalah simpan langsung sebagai Kubernetes Secret. Tapi ada masalahnya: nilai di dalam Kubernetes Secret hanya di-encode dengan base64, bukan dienkripsi. Siapapun yang punya akses ke cluster bisa baca isinya. Belum lagi soal rotasi secret yang manual dan menyiksa.
+HashiCorp Vault hadir sebagai solusi penyimpanan secret yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di Kubernetes baca secret dari Vault tanpa ribet?"><meta property="og:locale" content="en_US"><meta property="og:type" content="article"><meta property="article:section" content="blog"><meta property="article:published_time" content="2026-04-07T16:00:00+07:00"><meta property="article:modified_time" content="2026-04-07T16:00:00+07:00"><meta property="article:tag" content="Kubernetes"><meta property="article:tag" content="Vault"><meta property="article:tag" content="Security"><meta property="article:tag" content="DevOps"><meta property="article:tag" content="K8s"><meta name=twitter:card content="summary"><meta name=twitter:title content="External Secrets Operator: Inject Secret dari Vault ke Kubernetes"><meta name=twitter:description content="Kalau kita manage secret di Kubernetes, cara paling umum adalah simpan langsung sebagai Kubernetes Secret. Tapi ada masalahnya: nilai di dalam Kubernetes Secret hanya di-encode dengan base64, bukan dienkripsi. Siapapun yang punya akses ke cluster bisa baca isinya. Belum lagi soal rotasi secret yang manual dan menyiksa.
+HashiCorp Vault hadir sebagai solusi penyimpanan secret yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di Kubernetes baca secret dari Vault tanpa ribet?"><meta itemprop=name content="External Secrets Operator: Inject Secret dari Vault ke Kubernetes"><meta itemprop=description content="Kalau kita manage secret di Kubernetes, cara paling umum adalah simpan langsung sebagai Kubernetes Secret. Tapi ada masalahnya: nilai di dalam Kubernetes Secret hanya di-encode dengan base64, bukan dienkripsi. Siapapun yang punya akses ke cluster bisa baca isinya. Belum lagi soal rotasi secret yang manual dan menyiksa.
+HashiCorp Vault hadir sebagai solusi penyimpanan secret yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di Kubernetes baca secret dari Vault tanpa ribet?"><meta itemprop=datePublished content="2026-04-07T16:00:00+07:00"><meta itemprop=dateModified content="2026-04-07T16:00:00+07:00"><meta itemprop=wordCount content="1476"><meta itemprop=keywords content="Kubernetes,Vault,Security,DevOps,K8s"><meta name=referrer content="no-referrer-when-downgrade"><style>body{font-family:sans-serif;font-size:20px;margin:auto;padding:20px;max-width:1e3px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#000}h1,h2,h3,h4,h5,h6,strong,b{color:#000}a{color:#0101ee}.title{text-decoration:none;border:0}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:18px}input{font-size:18px}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#000;display:block;padding:20px;white-space:pre-wrap;font-size:18px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li{display:flex}ul.blog-posts li span{flex:0 0 130px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}</style><meta property="og:type" content="article"><meta property="og:title" content="External Secrets Operator: Inject Secret dari Vault ke Kubernetes"><meta property="og:description" content="Kalau kita manage secret di Kubernetes, cara paling umum adalah simpan langsung sebagai Kubernetes Secret. Tapi ada masalahnya: nilai di dalam Kubernetes Secret hanya di-encode dengan base64, bukan dienkripsi. Siapapun yang punya akses ke cluster bisa baca isinya. Belum lagi soal rotasi secret yang manual dan menyiksa.
+HashiCorp Vault hadir sebagai solusi penyimpanan secret yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di Kubernetes baca secret dari Vault tanpa ribet?"><meta property="og:url" content="https://dagimal.com/blog/external-secret-operator/"><meta property="og:image" content="default.png"><meta property="og:site_name" content="Dagimal (⌐ ͡■ ͜ʖ ͡■)"><meta property="og:locale" content="id_ID"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="External Secrets Operator: Inject Secret dari Vault ke Kubernetes"><meta name=twitter:description content="Kalau kita manage secret di Kubernetes, cara paling umum adalah simpan langsung sebagai Kubernetes Secret. Tapi ada masalahnya: nilai di dalam Kubernetes Secret hanya di-encode dengan base64, bukan dienkripsi. Siapapun yang punya akses ke cluster bisa baca isinya. Belum lagi soal rotasi secret yang manual dan menyiksa.
+HashiCorp Vault hadir sebagai solusi penyimpanan secret yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di Kubernetes baca secret dari Vault tanpa ribet?"><meta name=twitter:image content="default.png"></head><body><header><a href=/ class=title><h2>Dagimal (⌐ ͡■ ͜ʖ ͡■)</h2></a><nav><a href=/>Home</a>
+<a href=/blog>Blog</a></nav></header><main><h1>External Secrets Operator: Inject Secret dari Vault ke Kubernetes</h1><p><i><time datetime=2026-04-07 pubdate>07 Apr, 2026</time></i></p><content><p>Kalau kita manage <em>secret</em> di <em>Kubernetes</em>, cara paling umum adalah simpan langsung sebagai <em>Kubernetes Secret</em>. Tapi ada masalahnya: <strong>nilai di dalam <em>Kubernetes Secret</em> hanya di-encode dengan <em>base64</em>, bukan dienkripsi</strong>. Siapapun yang punya akses ke <em>cluster</em> bisa baca isinya. Belum lagi soal rotasi <em>secret</em> yang manual dan menyiksa.</p><p><em>HashiCorp Vault</em> hadir sebagai solusi penyimpanan <em>secret</em> yang proper, dengan enkripsi, audit log, dan fitur rotasi otomatis. Masalahnya, bagaimana cara aplikasi di <em>Kubernetes</em> baca <em>secret</em> dari <em>Vault</em> tanpa ribet?</p><p>Di sinilah <em><strong>External Secrets Operator</strong></em> atau <em>ESO</em> masuk. Tugasnya sederhana: <strong>ambil <em>secret</em> dari <em>Vault</em>, lalu buat <em>Kubernetes Secret</em> secara otomatis</strong>. Aplikasi kita tetap baca <em>secret</em> dari <em>Kubernetes Secret</em> seperti biasa, tapi sumber kebenarannya ada di <em>Vault</em>.</p><blockquote><p><a href=https://external-secrets.io/>External Secrets Operator - Official Docs</a></p></blockquote><h3 id=bagaimana-cara-kerjanya>Bagaimana Cara Kerjanya?</h3><p>Alurnya seperti ini:</p><pre tabindex=0><code>Vault (sumber secret) → ESO polling/sync → Kubernetes Secret → Pod/Aplikasi
+</code></pre><p><em>ESO</em> berjalan sebagai <em>controller</em> di dalam <em>cluster</em>. Kita definisikan <em>custom resource</em> bernama <em>ExternalSecret</em> yang berisi informasi: ambil <em>secret</em> ini dari <em>Vault</em>, simpan sebagai <em>Kubernetes Secret</em> dengan nama ini. <em>ESO</em> yang akan handle sinkronisasinya, termasuk refresh otomatis kalau <em>secret</em> di <em>Vault</em> berubah.</p><h3 id=instalasi-eso>Instalasi ESO</h3><p>Cara paling mudah adalah lewat <em>Helm</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>helm repo add external-secrets https://charts.external-secrets.io
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>helm install external-secrets <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  external-secrets/external-secrets <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --namespace external-secrets <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --create-namespace
+</span></span></code></pre></div><p>Verifikasi <em>ESO</em> sudah jalan:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get pods -n external-secrets
+</span></span><span style=display:flex><span><span style=color:#75715e># NAME                                READY   STATUS    RESTARTS</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># external-secrets-xxxxxxxxx-xxxxx   1/1     Running   0</span>
+</span></span></code></pre></div><h3 id=setup-hashicorp-vault>Setup HashiCorp Vault</h3><p>Asumsikan <em>Vault</em> sudah jalan. Kalau belum, bisa deploy di <em>Kubernetes</em> juga:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>helm repo add hashicorp https://helm.releases.hashicorp.com
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>helm install vault hashicorp/vault <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --namespace vault <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --create-namespace <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --set server.dev.enabled<span style=color:#f92672>=</span>true  <span style=color:#75715e># Untuk development saja</span>
+</span></span></code></pre></div><p>Aktifkan <em>KV secrets engine</em> dan simpan beberapa <em>secret</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Masuk ke pod Vault</span>
+</span></span><span style=display:flex><span>kubectl exec -it vault-0 -n vault -- /bin/sh
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Aktifkan KV v2</span>
+</span></span><span style=display:flex><span>vault secrets enable -path<span style=color:#f92672>=</span>secret kv-v2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Simpan secret aplikasi</span>
+</span></span><span style=display:flex><span>vault kv put secret/myapp/config <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  database_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;postgres://user:pass@db:5432/mydb&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  api_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;supersecretapikey123&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  jwt_secret<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;myjwtsecret&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Verifikasi</span>
+</span></span><span style=display:flex><span>vault kv get secret/myapp/config
+</span></span></code></pre></div><h3 id=buat-policy-di-vault>Buat Policy di Vault</h3><p><em>ESO</em> perlu <em>token</em> atau <em>auth method</em> untuk baca <em>secret</em> dari <em>Vault</em>. Buat <em>policy</em> yang hanya punya akses ke path yang dibutuhkan:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-hcl data-lang=hcl><span style=display:flex><span><span style=color:#75715e># policy-myapp.hcl
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>path</span> <span style=color:#e6db74>&#34;secret/data/myapp/*&#34;</span> {
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;read&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>path</span> <span style=color:#e6db74>&#34;secret/metadata/myapp/*&#34;</span> {
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;read&#34;, &#34;list&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Terapkan <em>policy</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>vault policy write myapp-policy policy-myapp.hcl
+</span></span></code></pre></div><h3 id=autentikasi-eso-ke-vault>Autentikasi ESO ke Vault</h3><p>Ada beberapa cara <em>ESO</em> autentikasi ke <em>Vault</em>. Yang paling direkomendasikan di <em>Kubernetes</em> adalah <em>Vault Kubernetes Auth Method</em> karena tidak perlu hardcode <em>token</em>.</p><p>Aktifkan <em>Kubernetes auth</em> di <em>Vault</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>vault auth enable kubernetes
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>vault write auth/kubernetes/config <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  kubernetes_host<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://kubernetes.default.svc:443&#34;</span>
+</span></span></code></pre></div><p>Buat <em>role</em> yang menghubungkan <em>service account Kubernetes</em> ke <em>policy Vault</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>vault write auth/kubernetes/role/myapp-role <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  bound_service_account_names<span style=color:#f92672>=</span>external-secrets-sa <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  bound_service_account_namespaces<span style=color:#f92672>=</span>production <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  policies<span style=color:#f92672>=</span>myapp-policy <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  ttl<span style=color:#f92672>=</span>1h
+</span></span></code></pre></div><h3 id=buat-secretstore>Buat SecretStore</h3><p><em>SecretStore</em> adalah konfigurasi koneksi ke <em>Vault</em>. Definisikan di <em>namespace</em> yang butuh akses:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># secretstore.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>SecretStore</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-backend</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>production</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>provider</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>vault</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>server</span>: <span style=color:#e6db74>&#34;http://vault.vault.svc.cluster.local:8200&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>path</span>: <span style=color:#e6db74>&#34;secret&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>version</span>: <span style=color:#e6db74>&#34;v2&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>auth</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>kubernetes</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>mountPath</span>: <span style=color:#e6db74>&#34;kubernetes&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>role</span>: <span style=color:#e6db74>&#34;myapp-role&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceAccountRef</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>name</span>: <span style=color:#ae81ff>external-secrets-sa</span>
+</span></span></code></pre></div><p>Kalau mau satu <em>SecretStore</em> berlaku di seluruh <em>cluster</em>, gunakan <em>ClusterSecretStore</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># clustersecretstore.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterSecretStore</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-backend-cluster</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>provider</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>vault</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>server</span>: <span style=color:#e6db74>&#34;http://vault.vault.svc.cluster.local:8200&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>path</span>: <span style=color:#e6db74>&#34;secret&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>version</span>: <span style=color:#e6db74>&#34;v2&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>auth</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>kubernetes</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>mountPath</span>: <span style=color:#e6db74>&#34;kubernetes&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>role</span>: <span style=color:#e6db74>&#34;myapp-role&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceAccountRef</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>name</span>: <span style=color:#ae81ff>external-secrets-sa</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>external-secrets</span>
+</span></span></code></pre></div><h3 id=buat-externalsecret>Buat ExternalSecret</h3><p>Ini adalah bagian utamanya. <em>ExternalSecret</em> mendefinisikan <em>secret</em> mana yang mau diambil dari <em>Vault</em> dan bagaimana disimpan sebagai <em>Kubernetes Secret</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># externalsecret-myapp.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ExternalSecret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>production</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>refreshInterval</span>: <span style=color:#ae81ff>1h </span> <span style=color:#75715e># Sinkronisasi ulang setiap 1 jam</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretStoreRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-backend</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>SecretStore</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>target</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret </span> <span style=color:#75715e># Nama Kubernetes Secret yang akan dibuat</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>creationPolicy</span>: <span style=color:#ae81ff>Owner</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>data</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>secretKey</span>: <span style=color:#ae81ff>DATABASE_URL      </span> <span style=color:#75715e># Key di Kubernetes Secret</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>remoteRef</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>myapp/config          </span> <span style=color:#75715e># Path di Vault</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>property</span>: <span style=color:#ae81ff>database_url     </span> <span style=color:#75715e># Field di dalam secret Vault</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>secretKey</span>: <span style=color:#ae81ff>API_KEY</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>remoteRef</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>myapp/config</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>property</span>: <span style=color:#ae81ff>api_key</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>secretKey</span>: <span style=color:#ae81ff>JWT_SECRET</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>remoteRef</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>myapp/config</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>property</span>: <span style=color:#ae81ff>jwt_secret</span>
+</span></span></code></pre></div><p>Terapkan:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f externalsecret-myapp.yaml
+</span></span></code></pre></div><p>Cek status sinkronisasi:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get externalsecret myapp-secret -n production
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># NAME           STORE          REFRESH INTERVAL   STATUS</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># myapp-secret   vault-backend  1h                 SecretSynced</span>
+</span></span></code></pre></div><p><em>Kubernetes Secret</em> sudah terbuat otomatis:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get secret myapp-secret -n production
+</span></span><span style=display:flex><span>kubectl describe secret myapp-secret -n production
+</span></span></code></pre></div><h3 id=ambil-semua-secret-sekaligus>Ambil Semua Secret Sekaligus</h3><p>Kalau path di <em>Vault</em> punya banyak <em>field</em> dan mau ambil semua tanpa sebutkan satu-satu, gunakan <code>dataFrom</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ExternalSecret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret-all</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>production</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>refreshInterval</span>: <span style=color:#ae81ff>30m</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretStoreRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-backend</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>SecretStore</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>target</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret-all</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>creationPolicy</span>: <span style=color:#ae81ff>Owner</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>dataFrom</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>extract</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>myapp/config </span> <span style=color:#75715e># Ambil semua field dari path ini</span>
+</span></span></code></pre></div><p>Semua <em>key-value</em> di <code>secret/myapp/config</code> akan otomatis jadi <em>key-value</em> di <em>Kubernetes Secret</em>.</p><h3 id=studi-kasus-clustersecretstore-untuk-multi-namespace>Studi Kasus: ClusterSecretStore untuk Multi-Namespace</h3><p>Bayangkan kita punya tiga <em>namespace</em> berbeda: <code>production</code>, <code>staging</code>, dan <code>development</code>. Ketiganya butuh akses ke <em>Vault</em> yang sama, tapi masing-masing punya <em>secret</em> yang berbeda. Kalau pakai <em>SecretStore</em> biasa, kita harus buat tiga <em>SecretStore</em> dengan konfigurasi yang sama persis, hanya berbeda <em>namespace</em>-nya. Mubazir.</p><p>Solusinya: buat satu <em>ClusterSecretStore</em> yang bisa dipakai oleh semua <em>namespace</em>.</p><p><strong>Langkah 1: Buat Policy di Vault</strong></p><p>Karena <em>ClusterSecretStore</em> akan dipakai oleh banyak <em>namespace</em>, buat <em>policy</em> yang cukup lebar tapi tetap terbatas di path yang relevan:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-hcl data-lang=hcl><span style=display:flex><span><span style=color:#75715e># policy-cluster.hcl
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>path</span> <span style=color:#e6db74>&#34;secret/data/production/*&#34;</span> {
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;read&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>path</span> <span style=color:#e6db74>&#34;secret/data/staging/*&#34;</span> {
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;read&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>path</span> <span style=color:#e6db74>&#34;secret/data/development/*&#34;</span> {
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;read&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>path</span> <span style=color:#e6db74>&#34;secret/metadata/*&#34;</span> {
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;read&#34;, &#34;list&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Terapkan:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>vault policy write cluster-policy policy-cluster.hcl
+</span></span></code></pre></div><p><strong>Langkah 2: Buat Vault Role untuk ClusterSecretStore</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>vault write auth/kubernetes/role/cluster-role <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  bound_service_account_names<span style=color:#f92672>=</span>external-secrets-sa <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  bound_service_account_namespaces<span style=color:#f92672>=</span>external-secrets <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  policies<span style=color:#f92672>=</span>cluster-policy <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  ttl<span style=color:#f92672>=</span>1h
+</span></span></code></pre></div><p>Karena <em>ClusterSecretStore</em> dikelola oleh <em>ESO</em> yang jalan di <em>namespace</em> <code>external-secrets</code>, <em>service account</em> yang di-bind adalah milik <em>ESO</em> itu sendiri, bukan <em>namespace</em> aplikasi.</p><p><strong>Langkah 3: Buat ClusterSecretStore</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># clustersecretstore.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterSecretStore</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-cluster</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>provider</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>vault</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>server</span>: <span style=color:#e6db74>&#34;http://vault.vault.svc.cluster.local:8200&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>path</span>: <span style=color:#e6db74>&#34;secret&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>version</span>: <span style=color:#e6db74>&#34;v2&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>auth</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>kubernetes</span>:
+</span></span><span style=display:flex><span>          <span style=color:#f92672>mountPath</span>: <span style=color:#e6db74>&#34;kubernetes&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>role</span>: <span style=color:#e6db74>&#34;cluster-role&#34;</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>serviceAccountRef</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>name</span>: <span style=color:#ae81ff>external-secrets-sa</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>external-secrets </span> <span style=color:#75715e># Namespace ESO itu sendiri</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f clustersecretstore.yaml
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Verifikasi status</span>
+</span></span><span style=display:flex><span>kubectl get clustersecretstore vault-cluster
+</span></span><span style=display:flex><span><span style=color:#75715e># NAME           AGE   STATUS   CAPABILITIES   READY</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># vault-cluster  10s   Valid    ReadWrite      True</span>
+</span></span></code></pre></div><p><strong>Langkah 4: Simpan Secret di Vault per Environment</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Secret untuk production</span>
+</span></span><span style=display:flex><span>vault kv put secret/production/myapp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  database_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;postgres://user:prodpass@prod-db:5432/mydb&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  api_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;prod-api-key-xyz&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Secret untuk staging</span>
+</span></span><span style=display:flex><span>vault kv put secret/staging/myapp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  database_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;postgres://user:stagingpass@staging-db:5432/mydb&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  api_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;staging-api-key-abc&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Secret untuk development</span>
+</span></span><span style=display:flex><span>vault kv put secret/development/myapp <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  database_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;postgres://user:devpass@dev-db:5432/mydb&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  api_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;dev-api-key-123&#34;</span>
+</span></span></code></pre></div><p><strong>Langkah 5: Buat ExternalSecret di Masing-masing Namespace</strong></p><p>Di <em>namespace</em> <code>production</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># externalsecret-production.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ExternalSecret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>production</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>refreshInterval</span>: <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretStoreRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-cluster</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterSecretStore </span> <span style=color:#75715e># Referensi ke ClusterSecretStore</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>target</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>creationPolicy</span>: <span style=color:#ae81ff>Owner</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>dataFrom</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>extract</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>production/myapp </span> <span style=color:#75715e># Path khusus production</span>
+</span></span></code></pre></div><p>Di <em>namespace</em> <code>staging</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># externalsecret-staging.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ExternalSecret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>staging</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>refreshInterval</span>: <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretStoreRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-cluster</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterSecretStore </span> <span style=color:#75715e># SecretStore yang sama</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>target</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>creationPolicy</span>: <span style=color:#ae81ff>Owner</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>dataFrom</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>extract</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>staging/myapp </span> <span style=color:#75715e># Path khusus staging</span>
+</span></span></code></pre></div><p>Di <em>namespace</em> <code>development</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># externalsecret-development.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>external-secrets.io/v1beta1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ExternalSecret</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>development</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>refreshInterval</span>: <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>secretStoreRef</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>vault-cluster</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>ClusterSecretStore </span> <span style=color:#75715e># SecretStore yang sama</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>target</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>creationPolicy</span>: <span style=color:#ae81ff>Owner</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>dataFrom</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>extract</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>key</span>: <span style=color:#ae81ff>development/myapp </span> <span style=color:#75715e># Path khusus development</span>
+</span></span></code></pre></div><p>Terapkan semua:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f externalsecret-production.yaml
+</span></span><span style=display:flex><span>kubectl apply -f externalsecret-staging.yaml
+</span></span><span style=display:flex><span>kubectl apply -f externalsecret-development.yaml
+</span></span></code></pre></div><p><strong>Verifikasi semua namespace sudah tersinkronisasi:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get externalsecret -A
+</span></span><span style=display:flex><span><span style=color:#75715e># NAMESPACE     NAME           STORE          REFRESH INTERVAL   STATUS</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># production    myapp-secret   vault-cluster  1h                 SecretSynced</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># staging       myapp-secret   vault-cluster  1h                 SecretSynced</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># development   myapp-secret   vault-cluster  1h                 SecretSynced</span>
+</span></span></code></pre></div><p>Hasilnya, <strong>satu <em>ClusterSecretStore</em> melayani tiga <em>namespace</em></strong> sekaligus. Konfigurasi koneksi ke <em>Vault</em> cukup diurus di satu tempat. Kalau ada perubahan <em>token</em>, <em>endpoint Vault</em>, atau konfigurasi auth, cukup update <em>ClusterSecretStore</em>-nya saja.</p><h3 id=pakai-secret-di-deployment>Pakai Secret di Deployment</h3><p>Setelah <em>Kubernetes Secret</em> terbuat oleh <em>ESO</em>, cara pakainya sama seperti <em>secret</em> biasa:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># deployment.yaml</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>production</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>matchLabels</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>app</span>: <span style=color:#ae81ff>myapp</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>template</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>labels</span>:
+</span></span><span style=display:flex><span>        <span style=color:#f92672>app</span>: <span style=color:#ae81ff>myapp</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>containers</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>image</span>: <span style=color:#ae81ff>myapp:latest</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>envFrom</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>secretRef</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret </span> <span style=color:#75715e># Kubernetes Secret yang dibuat ESO</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Atau pakai env spesifik</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>DATABASE_URL</span>
+</span></span><span style=display:flex><span>          <span style=color:#f92672>valueFrom</span>:
+</span></span><span style=display:flex><span>            <span style=color:#f92672>secretKeyRef</span>:
+</span></span><span style=display:flex><span>              <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapp-secret</span>
+</span></span><span style=display:flex><span>              <span style=color:#f92672>key</span>: <span style=color:#ae81ff>DATABASE_URL</span>
+</span></span></code></pre></div><h3 id=rotasi-secret-otomatis>Rotasi Secret Otomatis</h3><p>Salah satu kelebihan setup ini adalah <strong>rotasi <em>secret</em> jadi otomatis</strong>. Kalau kita update <em>secret</em> di <em>Vault</em>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>vault kv put secret/myapp/config <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  database_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;postgres://user:newpass@db:5432/mydb&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  api_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;newapi key456&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  jwt_secret<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;newjwtsecret&#34;</span>
+</span></span></code></pre></div><p><em>ESO</em> akan otomatis sinkronisasi ulang sesuai <code>refreshInterval</code> yang kita set. <em>Kubernetes Secret</em> akan terupdate, dan <em>pod</em> bisa restart untuk ambil nilai terbaru.</p><p>Kalau mau force refresh sekarang tanpa nunggu interval:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl annotate externalsecret myapp-secret <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  force-sync<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>date +%s<span style=color:#66d9ef>)</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --overwrite <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -n production
+</span></span></code></pre></div><h3 id=cek-dan-debug>Cek dan Debug</h3><p>Kalau <em>secret</em> tidak tersinkronisasi, cek event-nya:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Cek status ExternalSecret</span>
+</span></span><span style=display:flex><span>kubectl describe externalsecret myapp-secret -n production
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Cek log ESO controller</span>
+</span></span><span style=display:flex><span>kubectl logs -n external-secrets <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -l app.kubernetes.io/name<span style=color:#f92672>=</span>external-secrets <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --tail<span style=color:#f92672>=</span><span style=color:#ae81ff>50</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Cek event di namespace</span>
+</span></span><span style=display:flex><span>kubectl get events -n production --sort-by<span style=color:#f92672>=</span>.lastTimestamp
+</span></span></code></pre></div><p>Error yang paling umum biasanya:</p><ul><li><em>Service account</em> tidak punya permission yang benar di <em>Vault</em></li><li>Path <em>secret</em> di <em>Vault</em> salah</li><li><em>SecretStore</em> gagal koneksi ke <em>Vault</em></li></ul><h3 id=real-talk>Real Talk</h3><p>Sebelum pakai <em>ESO</em>, setup <em>secret</em> di <em>Kubernetes</em> itu menyiksa. Harus encode manual ke <em>base64</em>, paste ke <em>YAML</em>, apply ke <em>cluster</em>, dan kalau ada perubahan harus ulang dari awal lagi. Belum lagi kalau <em>secret</em> bocor di <em>Git</em> karena gak sengaja di-commit.</p><p>Dengan <em>ESO</em> dan <em>Vault</em>, <strong>sumber kebenaran <em>secret</em> ada di satu tempat yang aman dan teraudit</strong>. Developer tidak perlu tahu isi <em>secret</em> production, mereka hanya perlu tahu nama <em>key</em>-nya. Dan kalau ada rotasi <em>secret</em>, cukup update di <em>Vault</em>, sisanya otomatis.</p><p>Setup awalnya memang butuh waktu, tapi begitu jalan, <strong>manajemen <em>secret</em> jadi jauh lebih bersih dan aman</strong>.</p></content></main><footer>Ditulis dengan {❤️} di Klaten - Jakarta</footer></body></html>
