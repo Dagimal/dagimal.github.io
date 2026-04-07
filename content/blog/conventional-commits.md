@@ -1,5 +1,5 @@
 ---
-title: "Conventional Commits: Biar Git Log Kamu Gak Memalukan"
+title: "Conventional Commits: Biar Git Log Kamu Gak Membingungkan"
 date: "2026-04-07T18:00:00+07:00"
 #menu: "main"
 #
