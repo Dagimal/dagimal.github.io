@@ -7,7 +7,7 @@ theme = 'hugo-bearblog'
 
 # Basic metadata configuration for your blog.
 #title = "Dagimal (ノ•̀ ⏥ ́•)ノ Blog"
-title = "Dagimal (⌐ ͡■ ͜ʖ ͡■)"
+title = "Dagimal"
 author = "Dagimal"
 copyright = "Copyright © 2024, Dagimal."
 languageCode = "en-US"
@@ -41,7 +41,8 @@ ignoreErrors = ["error-disable-taxonomy"]
   # Another "title" :-). This one is used as the site_name on the Hugo's internal
   # opengraph structured data template.
   # See https://ogp.me/ and https://gohugo.io/templates/internal#open-graph.
-  title = "Dagimal (⌐ ͡■ ͜ʖ ͡■)"
+title = "Dagimal"
+
 
   # This theme will, by default, inject a made-with-line at the bottom of the page.
   # You can turn it off, but we would really appreciate if you don’t :-).
@@ -59,6 +60,13 @@ ignoreErrors = ["error-disable-taxonomy"]
     source = "images"
     target = "static"
 
+[[menu.main]]
+  name = "About Me"
+  url = "/profile/"
+  weight = 1
+
 [markup.goldmark.renderer]
-unsafe = true
+  unsafe = true
+
+
 

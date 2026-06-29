@@ -34,12 +34,35 @@
     border: 0;
   }
 
+  .title h2 {
+    font-family: 'Press Start 2P', cursive;
+    font-weight: bold;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .title h2 img {
+    margin-left: -20px;
+  }
+
   .title span {
     font-weight: 400;
   }
 
   nav a {
     margin-right: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  nav a:hover {
+    color: #000;
   }
 
   textarea {
@@ -69,22 +92,23 @@
   }
 
   pre code {
-    color: #000000;
+    color: #ddd;
     display: block;
     padding: 20px;
     white-space: pre-wrap;
     font-size: 18px;
     overflow-x: auto;
+    background-color: #000 !important;
   }
 
   div.highlight pre {
-    background-color: initial;
-    color: initial;
+    background-color: #000 !important;
+    color: #ddd !important;
   }
 
   div.highlight code {
-    background-color: unset;
-    color: unset;
+    background-color: transparent !important;
+    color: inherit !important;
   }
 
   blockquote {
@@ -97,6 +121,11 @@
   footer {
     padding: 25px;
     text-align: center;
+  }
+
+  .footer-pixel {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
   }
 
   .helptext {
