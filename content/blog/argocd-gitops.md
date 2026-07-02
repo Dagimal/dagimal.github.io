@@ -1,6 +1,6 @@
 ---
 title: "ArgoCD: CI Cukup Build, Urusan Deploy Serahin ke Git"
-date: "2026-04-07T17:00:00+07:00"
+date: "2026-04-23T17:00:00+07:00"
 #menu: "main"
 #
 # description is optional

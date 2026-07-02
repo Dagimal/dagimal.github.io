@@ -1,6 +1,6 @@
 ---
 title: "RBAC di Kubernetes: Atur Siapa Boleh Ngapain"
-date: "2026-04-07T15:30:00+07:00"
+date: "2026-04-15T15:30:00+07:00"
 #menu: "main"
 #
 # description is optional

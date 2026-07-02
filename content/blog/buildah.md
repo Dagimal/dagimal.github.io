@@ -1,6 +1,6 @@
 ---
 title: "Buildah: Build Container Image Tanpa Docker"
-date: "2026-04-07T13:20:00+07:00"
+date: "2026-04-20T13:20:00+07:00"
 #menu: "main"
 #
 # description is optional

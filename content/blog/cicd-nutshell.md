@@ -1,6 +1,6 @@
 ---
 title: "CI/CD in a Nutshell: Deploy Otomatis Tanpa Repot"
-date: "2026-04-07T11:45:00+07:00"
+date: "2026-04-21T11:45:00+07:00"
 #menu: "main"
 #
 # description is optional

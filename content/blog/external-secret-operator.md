@@ -1,6 +1,6 @@
 ---
 title: "External Secrets Operator: Inject Secret dari Vault ke Kubernetes"
-date: "2026-04-07T16:00:00+07:00"
+date: "2026-04-10T16:00:00+07:00"
 #menu: "main"
 #
 # description is optional

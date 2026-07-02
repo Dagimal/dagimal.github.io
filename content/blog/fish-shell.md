@@ -1,6 +1,6 @@
 ---
 title: "Fish Shell: Shell Interaktif yang User-Friendly"
-date: "2026-04-07T10:30:00+07:00"
+date: "2026-04-01T10:30:00+07:00"
 #menu: "main"
 #
 # description is optional
