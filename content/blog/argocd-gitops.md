@@ -219,6 +219,9 @@ argocd app history billing-engine-gdl-stg
 argocd app rollback billing-engine-gdl-stg <revision-id>
 ```
 
+Selain itu, rollback juga bisa dilakukan langsung melalui **UI ArgoCD** dengan cukup beberapa klik saja. Dan jika ingin meloncat ke versi image manapun, kita cukup mengubah nilai tag image di *Helm Values Repo*.
+
+
 ### Real Talk
 
 Pemisahan antara *Chart* dan *Values* menggunakan fitur *Multiple Sources* ArgoCD membuat manajemen konfigurasi menjadi sangat scalable. Kita tidak perlu mengelola ratusan file manifest Kubernetes yang hampir identik. Cukup satu Chart untuk semua, dan beberapa file *Values* untuk membedakan environment.
