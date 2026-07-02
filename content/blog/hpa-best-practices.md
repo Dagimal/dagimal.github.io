@@ -119,9 +119,11 @@ spec:
       stabilizationWindowSeconds: 300 # Cegah flapping
 ```
 
-### Studi Kasus: Scaling On-Premise
+### Studi Kasus: Scaling On-Premise (Java Application)
 
-Dalam lingkungan *on-premise* dengan resource yang terbatas, implementasi HPA membutuhkan ketelitian lebih dibandingkan di cloud. Ambil contoh kasus aplikasi core saat terjadi lonjakan traffic yang signifikan.
+Dalam lingkungan *on-premise* dengan resource yang terbatas, implementasi HPA membutuhkan ketelitian lebih dibandingkan di cloud. Ambil contoh kasus aplikasi core berbasis **Java (Spring Boot)** saat terjadi lonjakan traffic yang signifikan.
+
+Aplikasi Java memiliki karakteristik khusus, yaitu penggunaan memory yang cukup besar untuk JVM dan adanya proses *warm-up* (JIT Compilation) sebelum mencapai performa maksimal. Hal ini membuat konfigurasi HPA menjadi lebih kritikal.
 
 **Masalah:**
 Traffic melonjak ekstrem sehingga beban CPU meningkat tajam. Jika jumlah pod di-set statis, CPU akan mencapai limit dan menyebabkan *request timeout* atau penurunan performa yang drastis.
