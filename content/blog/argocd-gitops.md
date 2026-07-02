@@ -139,7 +139,7 @@ spec:
               - $values/staging/billing-engine/values.yaml
       destination:
         server: '{{url}}'
-        namespace: service01
+        namespace: app
       syncPolicy:
         automated:
           prune: false
