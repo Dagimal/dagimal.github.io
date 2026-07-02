@@ -3,7 +3,7 @@ title: "Fish Shell: Shell Interaktif yang User-Friendly"
 date: "2026-04-01T10:30:00+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Tingkatkan produktivitas terminal Anda dengan Fish Shell yang interaktif dan user-friendly."
 #
 # description: "Pengenalan Fish Shell sebagai alternatif modern untuk Bash dan Zsh"
 slug: "fish-shell"

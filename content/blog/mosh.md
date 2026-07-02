@@ -3,7 +3,7 @@ title: "Mosh: Stabil, Responsif, Anti ngelag"
 date: "2025-10-17T01:23:20+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Meningkatkan pengalaman terminal dengan Mosh untuk koneksi SSH yang lebih stabil dan responsif."
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 image: "img/mosh_header.jpg"

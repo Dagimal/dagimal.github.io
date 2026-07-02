@@ -2,9 +2,7 @@
 title: "2fa dengan Gopass"
 date: "2025-11-05T15:36:14+07:00"
 #menu: "main"
-#
-# description is optional
-#
+description: "Meningkatkan keamanan password manager dengan implementasi 2FA menggunakan gopass."
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 slug: "2fa-gopass"
 tags: ["container","devops","gitlab","k8s",]

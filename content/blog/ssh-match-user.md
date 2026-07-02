@@ -3,7 +3,7 @@ title: "SSH Match User"
 date: "2025-11-29T23:20:47+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Meningkatkan keamanan SSH dengan fitur Match User untuk mengontrol akses password per user."
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 

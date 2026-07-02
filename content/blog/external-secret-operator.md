@@ -3,7 +3,7 @@ title: "External Secrets Operator: Inject Secret dari Vault ke Kubernetes"
 date: "2026-04-10T16:00:00+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Cara mengelola dan menyinkronkan secret dari HashiCorp Vault ke Kubernetes secara otomatis menggunakan ESO."
 #
 # description: "Cara menggunakan External Secrets Operator untuk sinkronisasi secret dari HashiCorp Vault ke Kubernetes secara otomatis"
 slug: "external-secret-operator"

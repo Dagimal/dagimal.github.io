@@ -3,7 +3,7 @@ title: "CI/CD in a Nutshell: Deploy Otomatis Tanpa Repot"
 date: "2026-04-21T11:45:00+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Pahami konsep dasar CI/CD dan bagaimana automasi meningkatkan kecepatan serta kualitas development."
 #
 # description: "Pengenalan CI/CD dan mengapa development jadi lebih mudah dengan automation"
 slug: "cicd-nutshell"

@@ -4,7 +4,7 @@ date: "2025-10-06T14:33:06+07:00"
 image: "img/fatcontainer.png"
 #menu: "main"
 #
-# description is optional
+description: "Meningkatkan keamanan container dengan menggunakan Distroless Images untuk mengurangi attack surface."
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 

@@ -2,9 +2,7 @@
 title: "Buildah: Build Container Image Tanpa Docker"
 date: "2026-04-20T13:20:00+07:00"
 #menu: "main"
-#
-# description is optional
-#
+description: "Membangun container image tanpa docker daemon menggunakan Buildah untuk keamanan dan efisiensi lebih baik."
 # description: "Mengenal Buildah sebagai alternatif untuk build container image tanpa daemon Docker"
 slug: "buildah"
 tags: ["container","docker","devops","linux"]

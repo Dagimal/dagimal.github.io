@@ -3,7 +3,7 @@ title: "Kubespray Offline: Setup k8s Cluster Tanpa Koneksi Internet"
 date: "2025-10-31T00:11:28+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Panduan instalasi cluster Kubernetes menggunakan Kubespray di lingkungan offline atau air-gapped."
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 #draft: true

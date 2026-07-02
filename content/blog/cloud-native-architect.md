@@ -4,7 +4,7 @@ date: "2026-01-31T00:42:58+07:00"
 image: "img/cncfbw.png"
 #menu: "main"
 #
-# description is optional
+description: "Mengenal prinsip arsitektur Cloud Native untuk membangun sistem yang scalable, resilient, dan automation-ready."
 #
 # description: "An optional description for SEO. If not provided, an automatically created summary will be used."
 

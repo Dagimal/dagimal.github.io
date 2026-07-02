@@ -3,7 +3,7 @@ title: "Conventional Commits: Biar Git Log Kamu Gak Membingungkan"
 date: "2026-04-30T18:00:00+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Panduan menulis commit message yang standar, rapi, dan bermakna menggunakan Conventional Commits."
 #
 # description: "Panduan menulis commit message yang konsisten dan bermakna menggunakan Conventional Commits"
 slug: "conventional-commits"

@@ -3,7 +3,7 @@ title: "RBAC di Kubernetes: Atur Siapa Boleh Ngapain"
 date: "2026-04-15T15:30:00+07:00"
 #menu: "main"
 #
-# description is optional
+description: "Memahami Role-Based Access Control (RBAC) di Kubernetes untuk mengelola akses user dan service account secara aman."
 #
 # description: "Pengenalan RBAC di Kubernetes dan cara implementasinya agar akses ke cluster terkontrol dengan benar"
 slug: "rbac-kubernetes"

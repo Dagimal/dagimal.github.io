@@ -4,7 +4,7 @@ date: "2024-11-24T17:38:07+07:00"
 slug: "testing-ci-cd-dengan-gitlab-ci-local"
 #menu: "main"
 #
-# description is optional
+description: "Cara testing pipeline GitLab CI secara lokal sebelum push ke server untuk menghemat waktu dan resources."
 #
 description: "Testing CI/CD Tanpa Capek Ngepush"
 
