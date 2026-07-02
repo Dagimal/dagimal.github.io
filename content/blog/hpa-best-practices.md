@@ -119,6 +119,25 @@ spec:
       stabilizationWindowSeconds: 300 # Cegah flapping
 ```
 
+### Studi Kasus: Scaling On-Premise (Cut-Off Bulanan)
+
+Dalam lingkungan *on-premise* dengan resource yang terbatas, implementasi HPA membutuhkan ketelitian lebih dibandingkan di cloud. Ambil contoh kasus aplikasi core saat periode *cut-off* bulanan.
+
+**Masalah:**
+Traffic melonjak ekstrem saat *generate* tagihan. Jika jumlah pod di-set statis, CPU akan mencapai limit dan menyebabkan *request timeout*.
+
+**Implementasi Solusi:**
+Konfigurasi HPA diterapkan melalui *Helm Values* agar bisa fleksibel antar cluster.
+
+1. **Akurasi Resource Request:** Karena kapasitas node fisik terbatas, `requests` harus presisi. Jika terlalu besar, pod akan `Pending`. Jika terlalu kecil, HPA akan *trigger* terlalu awal.
+2. **Headroom untuk Startup:** Mengingat aplikasi *enterprise* (misal: Java/Spring Boot) butuh waktu untuk *warm-up*, target CPU di-set pada 60% agar tersedia ruang saat pod baru sedang booting.
+3. **Stabilization Window:** Menggunakan `stabilizationWindowSeconds: 600` untuk mencegah *flapping* dan memberikan stabilitas pada beban kerja yang naik-turun cepat.
+
+**Analisis Risiko On-Premise:**
+- **Node Exhaustion:** Tanpa Cluster Autoscaler otomatis, `maxReplicas` harus dibatasi agar tidak menghabiskan seluruh resource node yang bisa berdampak pada service lain (eviction).
+- **Database Connection Pool:** Scaling pod dari 3 menjadi 12 berarti jumlah koneksi ke database juga naik 4x lipat. Pastikan `max_connections` pada database sudah di-tuning.
+- **Warm-up Period:** Wajib menggunakan `readinessProbe` agar traffic tidak masuk ke pod yang belum siap.
+
 ### Real Talk
 
 HPA bukan "tombol ajaib" yang membuat aplikasi otomatis kencang. HPA hanyalah alat untuk mengelola jumlah replika. Performa asli tetap bergantung pada optimasi kode, efisiensi query database, dan konfigurasi resource yang tepat.
