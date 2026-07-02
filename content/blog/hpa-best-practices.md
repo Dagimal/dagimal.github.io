@@ -1,6 +1,6 @@
 ---
 title: "HPA di Kubernetes: Jangan Asal Scale, Pahami Best Practice-nya"
-date: "2026-04-25T10:00:00+07:00"
+date: "2026-07-02T10:00:00+07:00"
 #menu: "main"
 slug: "hpa-best-practices"
 tags: ["kubernetes","hpa","autoscaling","devops","performance"]
@@ -31,11 +31,11 @@ Seperti yang pernah dibahas, tidak semua service cocok pakai HPA.
 **HINDARI HPA jika:**
 - **Stateful/Database:** Menambah pod DB tanpa mekanisme replikasi data yang benar hanya akan membuat data korup atau inkonsisten.
 - **Singleton/Scheduler:** Aplikasi yang tugasnya mengirim email atau menjalankan cron job. Jika ada 10 pod menjalankan cron yang sama, user akan menerima 10 email.
-- **Bottleneck di Layer Lain:** Jika database Anda sudah mencapai limit koneksi, menambah pod aplikasi justru akan memperparah keadaan (efek domino).
+- **Bottleneck di Layer Lain:** Jika database sudah mencapai limit koneksi, menambah pod aplikasi justru akan memperparah keadaan (efek domino).
 
 ### Best Practice Implementasi HPA
 
-Berikut adalah beberapa aturan main agar HPA Anda berjalan stabil dan efektif:
+Berikut adalah beberapa aturan main agar HPA berjalan stabil dan efektif:
 
 #### 1. Wajib Tentukan Resource Requests
 HPA tidak bisa bekerja tanpa `resources.requests`. HPA menghitung persentase penggunaan berdasarkan nilai *request*, bukan *limit*.
@@ -86,9 +86,9 @@ Jangan terpaku hanya pada CPU.
 HPA akan menambah pod, tapi Kubernetes harus tahu kapan pod tersebut benar-benar siap menerima traffic. Tanpa `readinessProbe`, pod yang baru *booting* akan langsung dikirimi traffic dan kemungkinan besar akan *fail*, yang kemudian memicu HPA menambah pod lagi.
 
 #### 5. Integrasikan dengan Cluster Autoscaler (CA)
-HPA hanya menambah jumlah pod. Jika node di cluster Anda sudah penuh, pod baru akan berstatus `Pending`. HPA menjadi tidak berguna jika tidak ada tempat untuk meletakkan pod tersebut. 
+HPA hanya menambah jumlah pod. Jika node di cluster sudah penuh, pod baru akan berstatus `Pending`. HPA menjadi tidak berguna jika tidak ada tempat untuk meletakkan pod tersebut. 
 
-Pastikan Anda mengaktifkan **Cluster Autoscaler** agar ketika ada pod `Pending`, cluster otomatis menambah node baru.
+Pastikan sudah mengaktifkan **Cluster Autoscaler** agar ketika ada pod `Pending`, cluster otomatis menambah node baru.
 
 ### Contoh Manifest Lengkap
 
@@ -123,4 +123,4 @@ spec:
 
 HPA bukan "tombol ajaib" yang membuat aplikasi otomatis kencang. HPA hanyalah alat untuk mengelola jumlah replika. Performa asli tetap bergantung pada optimasi kode, efisiensi query database, dan konfigurasi resource yang tepat.
 
-Saran saya: **mulailah dengan observasi**. Gunakan Prometheus dan Grafana untuk melihat pola traffic aplikasi Anda. Tentukan nilai `requests` yang realistis, baru kemudian terapkan HPA. Jangan pernah mengaktifkan HPA di production tanpa mencoba *load test* terlebih dahulu untuk melihat bagaimana aplikasi Anda bereaksi saat jumlah pod bertambah secara masif.
+Saran saya: **mulailah dengan observasi**. Gunakan Prometheus dan Grafana untuk melihat pola traffic aplikasi. Tentukan nilai `requests` yang realistis, baru kemudian terapkan HPA. Jangan pernah mengaktifkan HPA di production tanpa mencoba *load test* terlebih dahulu untuk melihat bagaimana aplikasi bereaksi saat jumlah pod bertambah secara masif.
