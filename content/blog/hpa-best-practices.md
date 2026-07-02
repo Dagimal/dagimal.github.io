@@ -119,12 +119,12 @@ spec:
       stabilizationWindowSeconds: 300 # Cegah flapping
 ```
 
-### Studi Kasus: Scaling On-Premise (Cut-Off Bulanan)
+### Studi Kasus: Scaling On-Premise
 
-Dalam lingkungan *on-premise* dengan resource yang terbatas, implementasi HPA membutuhkan ketelitian lebih dibandingkan di cloud. Ambil contoh kasus aplikasi core saat periode *cut-off* bulanan.
+Dalam lingkungan *on-premise* dengan resource yang terbatas, implementasi HPA membutuhkan ketelitian lebih dibandingkan di cloud. Ambil contoh kasus aplikasi core saat terjadi lonjakan traffic yang signifikan.
 
 **Masalah:**
-Traffic melonjak ekstrem saat *generate* tagihan. Jika jumlah pod di-set statis, CPU akan mencapai limit dan menyebabkan *request timeout*.
+Traffic melonjak ekstrem sehingga beban CPU meningkat tajam. Jika jumlah pod di-set statis, CPU akan mencapai limit dan menyebabkan *request timeout* atau penurunan performa yang drastis.
 
 **Implementasi Solusi:**
 Konfigurasi HPA diterapkan melalui *Helm Values* agar bisa fleksibel antar cluster.
