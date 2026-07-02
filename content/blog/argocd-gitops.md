@@ -25,7 +25,7 @@ Intinya, **CI cukup urusin build dan push image. CD sepenuhnya urusan ArgoCD**.
 
 Sebelum masuk ke praktek, penting untuk paham filosofi *GitOps*:
 
-- Semua konfigurasi *deployment* disimpan di *Git* (*Kubernetes manifest*, *Helm chart*, atau *Kustomize*)
+- Semua konfigurasi *deployment* disimpan di *Git* (*Helm charts* dan *values*)
 - *Git* adalah satu-satunya sumber kebenaran
 - Perubahan ke *cluster* hanya boleh lewat *Git*, bukan manual `kubectl apply`
 - *ArgoCD* continuously watch *repo* dan pastikan kondisi *cluster* selalu sesuai dengan yang ada di *Git*
@@ -34,23 +34,23 @@ Dengan pendekatan ini, **history deployment ada di Git history**. Mau tau siapa 
 
 ### Arsitektur yang Kita Bangun
 
-Kita akan pisahkan dua *repository*:
+Kita memisahkan konfigurasi menjadi beberapa bagian untuk meningkatkan *reusability* dan keamanan:
 
-***App Repo*** → kode aplikasi. *CI pipeline* di sini yang handle build dan push *image*.
-
-***Config Repo*** → *Kubernetes manifest* atau *Helm values*. *ArgoCD* watch *repo* ini. Kalau ada perubahan di sini, *ArgoCD* akan sync ke *cluster*.
+1. **App Repo** $\rightarrow$ kode aplikasi. *CI pipeline* di sini yang handle build dan push *image*.
+2. **Helm Chart Repo** $\rightarrow$ berisi *template* manifest Kubernetes yang generik.
+3. **Helm Values Repo** $\rightarrow$ berisi konfigurasi spesifik per aplikasi, per environment, dan per cluster.
 
 Alurnya:
 
 ```
-Developer push code → CI build & push image → CI update image tag di Config Repo
+Developer push code → CI build & push image → CI update image tag di Helm Values Repo
                                                         ↓
-                                          ArgoCD detect perubahan di Config Repo
+                                          ArgoCD detect perubahan di Helm Values Repo
                                                         ↓
-                                          ArgoCD sync ke Kubernetes cluster
+                                          ArgoCD sync ke Kubernetes cluster menggunakan Chart + Values
 ```
 
-*CI* tidak pernah sentuh *cluster* langsung. Tugasnya selesai setelah update *image tag* di *Config Repo*.
+*CI* tidak pernah sentuh *cluster* langsung. Tugasnya selesai setelah update *image tag* di *Helm Values Repo*.
 
 ### Instalasi ArgoCD
 
@@ -83,106 +83,78 @@ kubectl get secret argocd-initial-admin-secret \
 
 Buka `https://localhost:8080`, login dengan user `admin` dan *password* yang barusan didapat.
 
-### Struktur Config Repository
+### Implementasi Multiple Sources (Helm Chart + Values)
 
-*Config Repo* kita strukturkan seperti ini:
+Salah satu fitur powerful ArgoCD adalah **Multiple Sources**. Kita bisa mengambil *Chart* dari satu repo dan *Values*-nya dari repo lain. Ini sangat berguna agar kita tidak perlu menduplikasi chart untuk setiap environment.
+
+#### Struktur Helm Values Repository
+
+*Values Repo* kita strukturkan agar rapi per environment dan per aplikasi:
 
 ```
-config-repo/
-├── apps/
-│   ├── myapp/
-│   │   ├── base/
-│   │   │   ├── deployment.yaml
-│   │   │   ├── service.yaml
-│   │   │   └── kustomization.yaml
-│   │   └── overlays/
-│   │       ├── production/
-│   │       │   ├── kustomization.yaml
-│   │       │   └── values.yaml
-│   │       └── staging/
-│   │           ├── kustomization.yaml
-│   │           └── values.yaml
+helm-values/
+├── staging/
+│   └── billing-engine/
+│       ├── values.yaml             # Base values untuk staging
+│       └── values-gdl-stg.yaml     # Override khusus cluster GDL Staging
+└── production/
+    └── billing-engine/
+        ├── values.yaml
+        └── values-gdl-prod.yaml
 ```
 
-Contoh `base/deployment.yaml`:
+#### Membuat ArgoCD ApplicationSet
+
+Untuk mengelola deployment ke banyak cluster sekaligus, kita menggunakan `ApplicationSet`.
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
 metadata:
-  name: myapp
+  name: billing-engine
+  namespace: argocd
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: myapp
+  generators:
+    - list:
+        elements:
+          - cluster: gdl-stg
+            url: "https://kube.dagimal.com:6443"
   template:
     metadata:
-      labels:
-        app: myapp
+      name: 'billing-engine-{{cluster}}'
     spec:
-      containers:
-      - name: myapp
-        image: registry.example.com/myapp:latest  # Tag ini yang akan diupdate CI
-        ports:
-        - containerPort: 8080
+      project: default
+      sources:
+        # Source 1: Helm Values Repo (di-refer sebagai 'values')
+        - repoURL: https://git.dagimal.com/devops/helm-values.git
+          targetRevision: main
+          ref: values
+        # Source 2: Helm Chart Repo
+        - repoURL: https://git.dagimal.com/devops/helm-chart.git
+          targetRevision: main
+          path: pelayanan-pelanggan
+          helm:
+            valueFiles:
+              - $values/staging/billing-engine/values-{{cluster}}.yaml
+              - $values/staging/billing-engine/values.yaml
+      destination:
+        server: '{{url}}'
+        namespace: service01
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
 ```
 
-Contoh `overlays/production/kustomization.yaml`:
-
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- ../../base
-namespace: production
-replicas:
-- name: myapp
-  count: 3
-images:
-- name: registry.example.com/myapp
-  newTag: "1.0.0"  # CI yang update nilai ini
-```
-
-### Buat ArgoCD Application
-
-*ArgoCD Application* adalah *custom resource* yang mendefinisikan: watch *repo* ini, deploy ke *cluster* ini, di *namespace* ini.
-
-```yaml
-# argocd-app-production.yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: myapp-production
-  namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/org/config-repo.git
-    targetRevision: main
-    path: apps/myapp/overlays/production
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: production
-  syncPolicy:
-    automated:
-      prune: true      # Hapus resource yang sudah tidak ada di Git
-      selfHeal: true   # Auto sync kalau ada yang berubah manual di cluster
-    syncOptions:
-    - CreateNamespace=true
-```
-
-```bash
-kubectl apply -f argocd-app-production.yaml
-```
-
-*ArgoCD* akan langsung mulai sync *manifest* dari *repo* ke *cluster*.
+**Poin penting:**
+- `ref: values` memberikan nama alias pada source pertama.
+- `$values/path/to/file` digunakan di source kedua untuk mengambil file dari source pertama.
 
 ### CI Pipeline: Tugasnya Hanya Build dan Update Tag
 
-Sekarang kita lihat bagaimana *CI pipeline* berinteraksi dengan *Config Repo*. Contoh menggunakan *GitLab CI*:
+*CI pipeline* kini hanya perlu mengupdate file `.yaml` di *Helm Values Repo*. Contoh menggunakan *GitLab CI*:
 
 ```yaml
 # .gitlab-ci.yml di App Repo
@@ -193,25 +165,19 @@ stages:
 build-image:
   stage: build
   script:
-  - docker build -t registry.example.com/myapp:$CI_COMMIT_SHORT_SHA .
-  - docker push registry.example.com/myapp:$CI_COMMIT_SHORT_SHA
+  - docker build -t registry.dagimal.com/myapp:$CI_COMMIT_SHORT_SHA .
+  - docker push registry.dagimal.com/myapp:$CI_COMMIT_SHORT_SHA
   only:
   - main
 
-update-image-tag:
+update-helm-values:
   stage: update-config
   image: alpine/git
   script:
-  # Clone config repo
-  - git clone https://oauth2:$CONFIG_REPO_TOKEN@github.com/org/config-repo.git
-  - cd config-repo
-
-  # Update image tag di kustomization production
-  - |
-    sed -i "s|newTag:.*|newTag: \"$CI_COMMIT_SHORT_SHA\"|" \
-    apps/myapp/overlays/production/kustomization.yaml
-
-  # Commit dan push perubahan
+  - git clone https://oauth2:$VALUES_REPO_TOKEN@gitlab.example.com/devops/helm-values.git
+  - cd helm-values
+  # Update image tag di values file menggunakan sed atau yq
+  - sed -i "s|tag:.*|tag: \"$CI_COMMIT_SHORT_SHA\"|" staging/myapp/values.yaml
   - git config user.email "ci@example.com"
   - git config user.name "CI Pipeline"
   - git add .
@@ -221,51 +187,15 @@ update-image-tag:
   - main
 ```
 
-Selesai. *CI* tidak tau apa-apa soal *Kubernetes*. Tugasnya hanya:
-1. Build dan push *image* dengan tag yang unik (biasanya *commit hash*)
-2. Update *image tag* di *Config Repo*
-3. *ArgoCD* yang akan lanjutkan dari sini
-
 ### Sync Manual vs Otomatis
 
 *ArgoCD* punya dua mode sync:
 
-**Sync Otomatis** (seperti contoh di atas dengan `automated`)
+**Sync Otomatis** (menggunakan `automated` di `syncPolicy`)
 *ArgoCD* akan langsung sync begitu ada perubahan di *Git*. Cocok untuk *staging* atau *development*.
 
 **Sync Manual**
 Kita yang tentukan kapan *deploy* terjadi. Cocok untuk *production* di mana kita mau ada kontrol lebih.
-
-Untuk sync manual, hapus bagian `automated` di *Application*:
-
-```yaml
-syncPolicy:
-  syncOptions:
-  - CreateNamespace=true
-  # Tidak ada automated, sync dilakukan manual
-```
-
-Lalu sync lewat *UI* atau *CLI*:
-
-```bash
-# Install ArgoCD CLI
-brew install argocd  # macOS
-# atau
-curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-
-# Login
-argocd login localhost:8080 --username admin --password <password>
-
-# Lihat status aplikasi
-argocd app list
-
-# Sync aplikasi
-argocd app sync myapp-production
-
-# Lihat detail dan history
-argocd app get myapp-production
-argocd app history myapp-production
-```
 
 ### Rollback Semudah Git Revert
 
@@ -274,7 +204,7 @@ Salah satu kelebihan *GitOps* yang paling terasa: **rollback semudah revert comm
 Kalau *deploy* terbaru bermasalah:
 
 ```bash
-# Di Config Repo, revert commit terakhir
+# Di Helm Values Repo, revert commit terakhir
 git revert HEAD
 git push
 ```
@@ -283,52 +213,18 @@ git push
 
 ```bash
 # Lihat history deployment
-argocd app history myapp-production
+argocd app history billing-engine-gdl-stg
 
 # Rollback ke revision tertentu
-argocd app rollback myapp-production <revision-id>
-```
-
-Tidak perlu re-run *pipeline*, tidak perlu ingat versi *image* apa yang sebelumnya jalan. Semua sudah tercatat di *Git history*.
-
-### Notifikasi Sync
-
-Supaya tim tau kalau ada *deploy* yang berhasil atau gagal, *ArgoCD* punya fitur *notifications*. Contoh konfigurasi notifikasi ke *Slack*:
-
-```yaml
-# argocd-notifications-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: argocd-notifications-secret
-  namespace: argocd
-stringData:
-  slack-token: "xoxb-your-slack-token"
-```
-
-```yaml
-# argocd-notifications-cm.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-notifications-cm
-  namespace: argocd
-data:
-  service.slack: |
-    token: $slack-token
-  template.app-deployed: |
-    message: |
-      Aplikasi *{{.app.metadata.name}}* berhasil di-deploy.
-      Revision: {{.app.status.sync.revision}}
-  trigger.on-deployed: |
-    - when: app.status.operationState.phase in ['Succeeded']
-      send: [app-deployed]
+argocd app rollback billing-engine-gdl-stg <revision-id>
 ```
 
 ### Real Talk
 
-Pemisahan *CI* dan *CD* seperti ini terasa ribet di awal, tapi begitu sudah jalan, **alur kerja jadi jauh lebih bersih**. *CI pipeline* jadi lebih ringan karena tidak perlu akses *cluster*, cukup akses *container registry* dan *Config Repo*. *Cluster credential* tidak perlu disimpan di *CI system* sama sekali.
+Pemisahan antara *Chart* dan *Values* menggunakan fitur *Multiple Sources* ArgoCD membuat manajemen konfigurasi menjadi sangat scalable. Kita tidak perlu mengelola ratusan file manifest Kubernetes yang hampir identik. Cukup satu Chart untuk semua, dan beberapa file *Values* untuk membedakan environment.
 
-Salah satu hal yang paling terasa manfaatnya adalah saat rollback. Sebelum pakai *ArgoCD*, rollback berarti cari tahu *image tag* yang sebelumnya jalan, ubah di *pipeline*, trigger manual, tunggu. Sekarang cukup `argocd app rollback` atau revert satu *commit* di *Git*.
-
-Dan karena semua perubahan *deployment* lewat *Git*, **audit trail jadi sangat jelas**. Bisa lihat kapan *deploy* terjadi, siapa yang trigger, dan apa yang berubah, hanya dari `git log`.
+Alur kerja menjadi jauh lebih bersih:
+- **Developers** fokus pada kode.
+- **CI** fokus pada artifact.
+- **SRE/DevOps** fokus pada konfigurasi di *Values Repo*.
+- **ArgoCD** memastikan semua sinkron.
