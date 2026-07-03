@@ -5,8 +5,6 @@ draft: true
 #
 description: "Belajar dasar-dasar Kubernetes secara cepat dan praktis untuk pemula."
 #
-description: "Panduan kilat untuk belajar kubernetes dari nol"
-
 tags: ["kubernetes","DevOps","Container","Cloud Computing"]
 ---
 
