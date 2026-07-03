@@ -3,10 +3,7 @@ title: "Capek Ngepush? Testing Gitlab CI/CD dengan gitlab-ci-local"
 date: "2024-11-24T17:38:07+07:00"
 slug: "testing-ci-cd-dengan-gitlab-ci-local"
 #menu: "main"
-#
 description: "Cara testing pipeline GitLab CI secara lokal sebelum push ke server untuk menghemat waktu dan resources."
-#
-description: "Testing CI/CD Tanpa Capek Ngepush"
 
 tags: ["Container","GitLab","DevOps"]
 ---

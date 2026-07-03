@@ -4,6 +4,8 @@ date: 2024-01-01
 draft: false
 ---
 
+Halo! Saya Dagimal. Masih terus belajar dan mengulik dunia DevOps. Di sini saya mendokumentasikan perjalanan belajar saya seputar Kubernetes, CI/CD, dan automasi—berharap catatan kecil ini bisa membantu teman-teman lain yang juga sedang berjuang melawan error di jam 2 pagi. Selamat menjelajah!
+
 ### Tech Stack
 - **OS**
   - Debian
